@@ -7,15 +7,13 @@
 \begin{document}
    \maketitle
    \begin{abstract}
-A decentralized application for the labor marketplace that connects employers with independent contractors is described. This system is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. Employers gain the ability to search profiles of candidates that match their requirements, contact available freelancers, keep track of worker's activity, and easily perform payments to freelancers.
+A decentralized application for the labor marketplace that connects employers with independent contractors is described. GiG, a system that works on the Cardano blockchain, is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. 
 
-The freelancers gain the ability to find job offers that interest them, secure work that pays them without needing trust, and receive payments without needing an intermediary, such as a financial institution.
-
+\paragraph{}Employers gain the ability to search profiles of candidates that match their requirements, contact available freelancers, keep track of worker's activity, and easily perform payments to freelancers. Freelancers gain the ability to find job offers that interest them, secure work that pays them without needing trust, and receive payments without needing an intermediary, such as a financial institution.
 
 \paragraph{} Common bugs will be avoided by using Plutus, the strongly typed functional programming language of the Cardano blockchain.
 
-\paragraph{} The native currency of the system is the Gig Economy Token (GET). The algorithm used for its creation prevents speculative bubbles, whose creation depends  is created by sending ADA to the GET creation smart contract (GCSC). The funds received by the GCSC are managed by GiG's Treasury System DAO (GTSD).
-The ecosystem receives financing for all the different possible expenses through proposals made to the GTSD. The proposals get voted upon by the GiG community.
+\paragraph{} The native currency of the system is the Gig Economy Token (GET). The algorithm used for its creation prevents speculative bubbles, and funds a Treasury System DAO. This DAO finances expenses of the GiG ecosystem through proposals created and voted upon by the GiG community.
 \end{abstract}
 
 \section{Introduction}   
@@ -23,7 +21,7 @@ All around the world, there's lots of work that needs to be done, and many peopl
 
 \section{GET Token Creation}
 GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
-The amount of GETs created and awarded to the ADA sender's wallet $\alpha$, will be an arbitrary constant $\phi$ (currently set to 1000 GETn), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
+The amount of GETs created and awarded to the ADA sender's wallet $\alpha$, will be an arbitrary constant $\phi$ (currently set to 1000 GET), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
 \[ \alpha
   = \dfrac{\phi}{\ell}
 \]
