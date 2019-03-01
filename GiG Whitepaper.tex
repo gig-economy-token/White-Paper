@@ -7,35 +7,44 @@
 \begin{document}
    \maketitle
    \begin{abstract}
-A decentralized application for the labor marketplace that connects employers with independent contractors is described. This system is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. Employers will be able to search profiles of candidates that match their requirements, and freelancers will be able to 
+A decentralized application for the labor marketplace that connects employers with independent contractors is described. This system is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. Employers gain the ability to search profiles of candidates that match their requirements, contact available freelancers, keep track of worker's activity, and easily perform payments to freelancers.
+
+The freelancers gain the ability to find job offers that interest them, secure work that pays them without needing trust, and receive payments without needing an intermediary, such as a financial institution.
 
 
-Common bugs will be avoided by using Plutus, the strongly typed functional programming language of the Cardano blockchain.
-The native currency of the system is the Gig Economy Token (GET), which is created by sending ADA to the GET creation smart contract (GCSC). The funds received by the GCSC are managed by GiG's Treasury System DAO (GTSD). 
+\paragraph{} Common bugs will be avoided by using Plutus, the strongly typed functional programming language of the Cardano blockchain.
+
+\paragraph{} The native currency of the system is the Gig Economy Token (GET). The algorithm used for its creation prevents speculative bubbles, whose creation depends  is created by sending ADA to the GET creation smart contract (GCSC). The funds received by the GCSC are managed by GiG's Treasury System DAO (GTSD).
 The ecosystem receives financing for all the different possible expenses through proposals made to the GTSD. The proposals get voted upon by the GiG community.
 \end{abstract}
 
 \section{Introduction}   
-
+All around the world, there's lots of work that needs to be done, and many people that need to work. Unfortunately, the people who are willing to pay a certain amount of money for a certain work to be done, very often can't connect with the people who would benefit from the laboral opportunity and who would be willing to do the work in exchange for such amount.
 
 \section{GET Token Creation}
 GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
-The amount of GETs created and awarded to the ADA sender's wallet $\alpha$, will be 1000 divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
+The amount of GETs created and awarded to the ADA sender's wallet $\alpha$, will be an arbitrary constant $\phi$ (currently set to 1000 GETn), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
 \[ \alpha
-  = \dfrac{1000 GET}{\ell}
+  = \dfrac{\phi}{\ell}
 \]
 
 \section{Treasury System and DAO funding}
 All the ADA received by the GET token creation is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}.
  
 \section{Creating Job Offers}
-An employera signs a job offer posting transaction with his Ccardano private key. This transaction includes a location list, a payment amount in GET. This transaction's hash would be stored in the 
+An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
 \section{Applying for Job Offers}
+When a freelancer finds a job offer he is interested in, he will send an application transaction to the employer.
+
+\section{Accepting Applications}
+When an employer receives applications for a job offer he created, he can accept said applications, which would create an escrow for the amount detailed in his job offer.
 
 \section{Escrow Release}
+To prove that the work has been performed, the freelancer will need to Once the requirements of the job have been fulfilled by the freelancer, the employer can release the GET from the escrow.
 
 \section{Dispute Resolution}
+A dispute can be started by either an employer or by an employee. The arbiter agreed upon before the escrow creation receives a notification of the start of the dispute, and needs to review any evidence provided by the employer and by the employee, and release the escrow in favor of the actor whom he deems is in the right.
 
 Geolocation
 
