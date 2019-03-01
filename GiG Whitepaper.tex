@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\title{GiG: A Decentralized Platform for the Gig Economy}
+\author{Ishtar Eve}
+\date{February 2019}
+\begin{document}
+   \maketitle
+   \begin{abstract}
+A decentralized application for the labor marketplace that connects employers with independent contractors is described. This system is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. Employers will be able to search profiles of candidates that match their requirements, and freelancers will be able to 
+
+
+Common bugs will be avoided by using Plutus, the strongly typed functional programming language of the Cardano blockchain.
+The native currency of the system is the Gig Economy Token (GET), which is created by sending ADA to the GET creation smart contract (GCSC). The funds received by the GCSC are managed by GiG's Treasury System DAO (GTSD). 
+The ecosystem receives financing for all the different possible expenses through proposals made to the GTSD. The proposals get voted upon by the GiG community.
+\end{abstract}
+
+\section{Introduction}   
+
+
+\section{GET Token Creation}
+GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
+The amount of GETs created and awarded to the ADA sender's wallet $\alpha$, will be 1000 divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
+\[ \alpha
+  = \dfrac{1000 GET}{\ell}
+\]
+
+\section{Treasury System and DAO funding}
+All the ADA received by the GET token creation is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}.
+ 
+\section{Creating Job Offers}
+An employera signs a job offer posting transaction with his Ccardano private key. This transaction includes a location list, a payment amount in GET. This transaction's hash would be stored in the 
+
+\section{Applying for Job Offers}
+
+\section{Escrow Release}
+
+\section{Dispute Resolution}
+
+Geolocation
+
+DAO funding
+
+
+Creating Job Offers
+
+
+
+Escrow Creation
+
+Booking inquiries
+Booking a Freelancer
+
+Making a transaction
+Management Tools
+Automatic Timesheets
+Communication Between Parties
+Job Completion
+
+
+\begin{thebibliography}{99}
+
+\bibitem{zhangb2}
+\href{https://www.lancaster.ac.uk/staff/zhangb2/treasury.pdf}{A Treasury System for Cryptocurrencies:Enabling Better Collaborative Intelligence}
+Bingsheng Zhang1, Roman Oliynykov2, and Hamed Balogun3
+
+\end{thebibliography}
+
+\end{document}
