@@ -157,17 +157,65 @@ The Job Board Smart Contract demands that whoever posted the job must take it do
 The Escrow Smart Contract is significantly more complex than the Job Board Smart Contract for two reasons:
 
 \begin{itemize}
-  \item The Escrow has funds that malicious actors may seek to obtain.
+  \item The Escrow has funds that malicious actors may seek to steal.
   \item The Escrow may have to release these funds to different parties.
 \end{itemize}
 
 For this reason, the Escrow must have much tighter security and validation.
 
-As usual, every Plutus Smart Contract is configured with a DataScript. In the Escrow DataScript we introduce the full job description (including the public key of the employer), as well as the description of the accepted freelance (including his public key), and the public key of the chosen arbiter. The Escrow Smart Contract will now validate the actions that try to spend the escrow, and will check that the signer of the action is in position to execute the action, by checking the signatures of these actions.
+As usual, every Plutus Smart Contract is configured with a DataScript. In the Escrow DataScript we introduce the full job description (including the public key of the employer), as well as the description of the accepted freelance (including his public key), and the public key of the chosen arbiter.
 
+\begin{verbatim}
+jobEscrowContract :: ValidatorScript
+jobEscrowContract = ValidatorScript ($$(Ledger.compileScript [||
+  \ (result :: EscrowResult)
+    (setup :: EscrowSetup)
+    (tx :: Validation.PendingTx)
+    ->
+    let EscrowSetup {
+          esJobOffer=JobOffer {
+            joOfferer=employerPubKey
+          },
+          esJobApplication=JobApplication {
+            jaAcceptor=employeePubKey
+          },
+          esArbiter=arbiterPubKey
+        } = setup
+    in
+		...
+  ||]))
+\end{verbatim}
 
+The Escrow Smart Contract will now validate the actions that try to spend the escrow, and will check that the signer of the action is in position to execute the action, by checking the signatures of these actions.
 
-PUT CODE HERE DESCRIBING THE VALIDATION PROCESS
+\begin{verbatim}
+jobEscrowContract :: ValidatorScript
+jobEscrowContract = ValidatorScript ($$(Ledger.compileScript [||
+  \ (result :: EscrowResult)
+    (setup :: EscrowSetup)
+    (tx :: Validation.PendingTx)
+    ->
+		...
+    let
+      eqPubKey = $$(Validation.eqPubKey)
+      signedBy' (Signature sig) (PubKey pk) = ...
+      (&&) = $$(PlutusTx.and)
+    in
+    case result of
+      EscrowAcceptedByEmployer sig ->
+        if (signedBy' sig employerPubKey) && (eqPubKey destPubkey employeePubKey)
+        then ()
+        else $$(PlutusTx.traceH) "Bad acceptance by employer" ($$(PlutusTx.error) ())
+      EscrowAcceptedByArbiter sig ->
+        if (signedBy' sig arbiterPubKey) && (eqPubKey destPubkey employeePubKey)
+        then ()
+        else $$(PlutusTx.traceH) "Bad acceptance by arbiter" ($$(PlutusTx.error) ())
+      EscrowRejectedByArbiter sig ->
+        if (signedBy' sig arbiterPubKey) && (eqPubKey destPubkey employerPubKey)
+        then ()
+        else $$(PlutusTx.traceH) "Bad reject by arbiter" ($$(PlutusTx.error) ())
+  ||]))
+\end{verbatim}
 
 
 Geolocation
@@ -197,7 +245,7 @@ Job Completion
 \href{https://www.lancaster.ac.uk/staff/zhangb2/treasury.pdf}{A Treasury System for Cryptocurrencies:Enabling Better Collaborative Intelligence}
 Bingsheng Zhang1, Roman Oliynykov2, and Hamed Balogun3
 
-\bibitem{pub-sub-paper} A pub-sub mechanism for Cardano and Plutus, \url{PUT URL HERE}, Javier Casas, March 2019.
+\bibitem{pub-sub-paper} A pub-sub mechanism for Cardano and Plutus, \url{https://github.com/javcasas/plutus-pubsub-paper/blob/master/paper.pdf}, Javier Casas, March 2019.
 
 \end{thebibliography}
 
