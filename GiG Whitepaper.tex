@@ -43,18 +43,57 @@ All the ADA received by the GCSM is managed by a treasury system DAO based on th
 \section{Creating Job Offers}
 An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
+This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
+
 \section{Applying for Job Offers}
-When a freelancer finds a job offer he is interested in, he will send an application transaction to the employer.
->>>>>>> 2df9bdbea5b9246502532392a13bfe287479fcec
+
+In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in "A pub-sub mechanism for Cardano and Plutus"\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
+
+Now that the freelancer can understand what the job demands, he can apply to it. In this context, application means that the freelancer considers himself good enough to deliver the job required, but the employer may disagree. This is why further filtering before the job is done and the payment is delivered is needed. In this case, the freelancer posts his application to a different address, that we call the "Job Application Board". This address is derived automatically from the main Job Board address, hashing into it the specific details of the job.
+
+The freelancer posts to this Job Application Board his public key, and possibly some relevant information.
 
 \section{Accepting Applications}
-When an employer receives applications for a job offer he created, he can accept said applications, which would create an escrow for the amount detailed in his job offer.
+At this point, both the employer and the freelancer share some common agreement (the job contract), and both parties have copies of the public keys of the other. They can now use standard assymetric-cypher communication to further discuss the job terms and the ability of the freelancer to deliver the job. This is not covered by this paper, but it's relevant for the mechanism to be complete, and therefore will be addressed in further publications.
+
+After the employer and the freelancer have reached an agreement, it is signed by the employer creating an escrow and locking the funds for payment. At this point, the freelancer can see the employer willingness to pay for the job by observing the escrow with the associated funds on the blockchain.
 
 \section{Escrow Release}
-Once the requirements of the job have been fulfilled by the freelancer, the employer can release the GET from the escrow.
+The freelancer now will proceed to deliver the work. When the employer agrees that the work has been delivered, he can release the funds in the escrow to the freelance by posting a transaction to the escrow smart contract. This transaction is signed with the employer's private key, and assigns the funds to the freelancer's wallet.
 
 \section{Dispute Resolution}
-A dispute can be started by either an employer or by an employee. The arbiter agreed upon before the escrow creation receives a notification of the start of the dispute, and needs to review any evidence provided by the employer and by the employee, and release the escrow in favor of the actor whom he deems is in the right.
+Not every time the freelancer and the employer will agree on the outcome of the work delivered. When this happens, the employer may choose to not release the funds, which puts the situation in a stalemate, as the freelancer may not want to work more, and the employer has the funds locked in the smart contract.
+
+To break this stalemate we introduce a third party: an arbiter. The arbiter has been agreed upon before the escrow creation, and his public key is now part of the escrow DataScript. The arbiter has power to release the funds to the freelancer, or back to the employer, but not to himself. It is expected for the arbiter to review any evidence provided by the employer and the employee, and release the escrow in favor of the actor whom he deems is in the right.
+
+The escrow is released by the arbiter by posting a transaction to the escrow address with the result of his judgement (accept escrow to freelancer, or reject escrow back to employer), setting the output of the transaction to the wallet of the freelancer or the wallet of the employer, and finally signing the transaction with his private key.
+
+\section{Smart contracts}
+Therefore, the system uses two main smart contracts: one for broadcasting and accepting job offers, the other for escrow and dispute resolution.
+
+\subsection{Job Board Smart Contract}
+The Job Board Smart Contract is somewhat simple, as it doesn't have to do advanced data processing and validation of transactions. Its main objective is forwarding information from the employer to the freelance, and back. In order to signal that a job is no longer available (for example, because it has been performed and is no longer needed), the employer is offered the option of closing it. This becomes the only validation this smart contract will do: whoever posts to the Job Board is the only one that can take it down.
+
+The system uses the Watched Addresses abstraction provided by Plutus. This abstraction provides a way to specify which addresses (such as the Job Board and the Job Application Board) we want to observe, and the system will tell us non-complete transactions that are currently there. Because we use this system to read back job offers, we can take down a job offer by completing the transaction that posted the job offer, and thus making it disappear from everyone's Watched Addresses.
+
+PUT CODE HERE DESCRIBING THE VALIDATION PROCESS
+
+The Job Board Smart Contract demands that whoever posted the job must take it down, and this is the only validation implemented in this contract. This allows the poster to notify the world when the job is available, and when it's no longer available, while preventing malicious third parties from closing the job contract without the employer's approval.
+
+\subsection{Escrow Smart Contract}
+The Escrow Smart Contract is significantly more complex than the Job Board Smart Contract for two reasons:
+
+\begin{itemize}
+  \item The Escrow has funds that malicious actors may seek to obtain.
+  \item The Escrow may have to release these funds to different parties.
+\end{itemize}
+
+For this reason, the Escrow must have much tighter security and validation.
+
+As usual, every Plutus Smart Contract is configured with a DataScript. In the Escrow DataScript we introduce the full job description (including the public key of the employer), as well as the description of the accepted freelance (including his public key), and the public key of the chosen arbiter. The Escrow Smart Contract will now validate the actions that try to spend the escrow, and will check that the signer of the action is in position to execute the action, by checking the signatures of these actions.
+
+PUT CODE HERE DESCRIBING THE VALIDATION PROCESS
+
 
 Geolocation
 
@@ -82,6 +121,8 @@ Job Completion
 \bibitem{zhangb2}
 \href{https://www.lancaster.ac.uk/staff/zhangb2/treasury.pdf}{A Treasury System for Cryptocurrencies:Enabling Better Collaborative Intelligence}
 Bingsheng Zhang1, Roman Oliynykov2, and Hamed Balogun3
+
+\bibitem{pub-sub-paper} A pub-sub mechanism for Cardano and Plutus, \url{PUT URL HERE}, Javier Casas, March 2019.
 
 \end{thebibliography}
 
