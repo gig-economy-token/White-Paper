@@ -28,7 +28,7 @@ A study by Intuit predicts that the gig economy will be about 43\% of the workfo
 (Paper organization)
 
 (Thoughts)
-\paragraph{} All around the world, there's lots of work that needs to be done, and many people that need to work. Unfortunately, the people who are willing to pay a certain amount of money for a certain work to be done, very often can't connect with the people who would benefit from the laboral opportunity and who would be willing to do the work in exchange for such amount.
+\paragraph{} All around the world, there's lots of work that needs to be done, and many people that need to work. Unfortunately, the people who are willing to pay a certain amount of money for a certain work to be done, very often can't connect with the people who would benefit from the working opportunity and who would be willing to do the work in exchange for such amount.
 
 \section{GET Token Creation}
 GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
@@ -74,7 +74,7 @@ PlutusTx.makeLift ''JobApplication
 \end{verbatim}
 
 \section{Accepting Applications}
-At this point, both the employer and the freelancer share some common agreement (the job contract), and both parties have copies of the public keys of the other. They can now use standard assymetric-cypher communication to further discuss the job terms and the ability of the freelancer to deliver the job. This is not covered by this paper, but it's relevant for the mechanism to be complete, and therefore will be addressed in further publications.
+At this point, both the employer and the freelancer share some common agreement (the job contract), and both parties have copies of the public keys of the other. They can now use standard asymmetric-cipher communication to further discuss the job terms and the ability of the freelancer to deliver the job. This is not covered by this paper, but it's relevant for the mechanism to be complete, and therefore will be addressed in further publications.
 
 After the employer and the freelancer have reached an agreement, it is signed by the employer creating an escrow and locking the funds for payment. At this point, the freelancer can see the employer willingness to pay for the job by observing the escrow with the associated funds on the blockchain.
 
@@ -108,7 +108,7 @@ Not every time the freelancer and the employer will agree on the outcome of the 
 
 To break this stalemate we introduce a third party: an arbiter. The arbiter has been agreed upon before the escrow creation, and his public key is now part of the escrow DataScript. The arbiter has power to release the funds to the freelancer, or back to the employer, but not to himself. It is expected for the arbiter to review any evidence provided by the employer and the employee, and release the escrow in favor of the actor whom he deems is in the right.
 
-The escrow is released by the arbiter by posting a transaction to the escrow address with the result of his judgement (accept escrow to freelancer, or reject escrow back to employer), written as a RedeemerScript, setting the output of the transaction to the wallet of the freelancer or the wallet of the employer, and finally signing the transaction with his private key.
+The escrow is released by the arbiter by posting a transaction to the escrow address with the result of his judgment (accept escrow to freelancer, or reject escrow back to employer), written as a RedeemerScript, setting the output of the transaction to the wallet of the freelancer or the wallet of the employer, and finally signing the transaction with his private key.
 
 \begin{verbatim}
 data EscrowResult
