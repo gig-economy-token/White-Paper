@@ -2,6 +2,23 @@
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{dirtytalk}
+\usepackage{svg}
+
+% aquote environment
+% from https://tex.stackexchange.com/questions/13756/quote-environment-with-reference-at-the-end-right
+
+
+\def\signed #1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
+  \hbox{}\nobreak\hfil(#1)%
+  \parfillskip=0pt \finalhyphendemerits=0 \endgraf}}
+
+\newsavebox\mybox
+\newenvironment{aquote}[1]
+  {\savebox\mybox{#1}\begin{quote}}
+  {\signed{\usebox\mybox}\end{quote}}
+
+% end aquote environment
+
 \title{GiG: A Decentralized Platform\\for the Gig Economy}
 \author{Ishtar Eve}
 \date{February 2019}
@@ -324,10 +341,11 @@ In our opinion, the usage of a web framework has paid significantly, as it provi
 
 Ironically, the \emph{opinion} of using a SQLite database has not been used, as we focused on using the blockchain as our distributed store of data. Storing data in the blockchain is expected to be expensive\cite{transaction-fees}, so we can't truly discard the option of using an external and cheaper data storage.
 
+
 \section{Architecture of the GiG Economy dApp}
 The protoype serves as an effective way to learn and understand Cardano and Plutus, and direct that learning into the objectives we want to achieve. But it cannot be considered the final application because the constraints of the final application are significantly different to the constraints of the prototype.
 
-\subsection{Architectural gaps of the prototype}
+\subsection{Architectural limitations of the prototype}
 
 In order to construct the prototype quickly, we have paid little attention to many significant flaws in the current system:
 
@@ -367,11 +385,12 @@ For the dApp to be successful, it must offer:
 
 We will explore the solution space looking for hints of architectural design that allows us to cover these reasons.
 
-\subsection{The application platform}
+\subsubsection{The application platform}
 
+\begin{aquote}{the Daedalus website\cite{daedalus-website}}
 Daedalus is a highly secure wallet for the Ada cryptocurrency. Download and install it so you can use it to safely store your Ada. Daedalus will add more cryptocurrencies and be developed over time along with Cardano, to become a universal wallet, blockchain application platform and an app store.
+\end{aquote}
 
-\cite{daedalus-website}
 
 The Daedalus Wallet offers a good hint on how we can construct the GiG Economy dApp. It will offer in the future an app store and blockchain application platform, and it seems the GiG Economy dApp will have the most reach if it can use the provided blockchain application platform for running, and the app store for discovery and distribution. With good support from a known wallet, we can cover the requirements of using the blockchain easily, and being easy to find and install by new users.
 
@@ -379,31 +398,49 @@ There is a second wallet in the ecosystem called Yoroi. Yoroi aims to be a secur
 
 Therefore, there are two main types of wallets available in the Cardano blockchain. But the expected complexity of the GiG Economy dApp suggests that only \emph{heavyweight} wallets that offer a blockchain application platform may be viable for our purposes.
 
-\subsection{Broadcasting and responding requirements}
+\subsubsection{Broadcasting and responding requirements}
 
 There must be a way for employers to post job offers, and for freelancers to check the offers and apply to them. It may not be viable for the platform to store the complete job offer in the blockchain, as it may include lots of data and incur in significant transaction costs. For the same reason, it may not be viable for the platform to put in the blockchain a full application with the full profile of the freelancer. This means we need to look for alternative ways to store this information.
 
 All the transactions that are posted to the blockchain become public. So there is another concern related to storing freelancer profiles (or references to profiles) in the blockchain. The profile may include sensitive information, and freelancers may not want to expose such information to everyone. On top of that, there are laws and regulations that affect how we can store and retrieve such sensitive information.
 
-\subsection{Communication requirements}
+\subsubsection{Communication requirements}
 
 There must be a way for employers, freelancers and arbiters to communicate with each other. This poses an initial challenge, as people may not want to reveal much of their contact information. This is very relevant, for example, for arbiters. If a malicious party discovers enough contact information of an arbiter (name, address, friends, family), he could use this information to coerce the arbiter into chosing an specific outcome regardless of evidence provided.
 
 So we need to support a gradual level of contact information to be revealed, and we need to ensure this contact information is revealed only to the right parties.
 
-\subsection{Market expansion requirements}
+\subsubsection{Market expansion requirements}
 
 As the GiG Economy Platform expands, a way to discriminate jobs depending on circumstances is expected to be required. We may want to broadcast local jobs only to freelancers in the world that are in a situation to deliver them at the required location. This means we will have to investigate and implement a mechanism for specifying the outreach of a job, in order for freelancers to receive only jobs that may be relevant to them, and for employers to receive applications from freelancers that are in a good position to deliver the work.
 
 This requirement also means we have to be careful when designing the smart contracts, so that we can configure them to have this calculated reach, and, at the same time, are able to withstand global actions and usage. This is specially important for the Gig Economy Token, as it is expected that the token is fungible (I/E every token is equal to any other token), and therefore is prime candidate for having a single smart contract to be aplied to every user of the system.
 
-\subsection{Continuity requirements}
+\subsubsection{Continuity requirements}
 
 The GiG Economy Platform is expected to expand, change and evolve over time. Because it is intended to be a distributed platform, there can't be a single person or group of people that will govern it, as this group of people can be a weak point of the whole platform, and defeats the point of having a distributed application.
 
 For this reason, we envision the Gig Economy Token as a mechanism for voting and administering the future of the platform, by constructing a Decentralized Autonomous Organization. The dApp must offer the mechanisms needed for people to fund and participate in this DAO.
 
 As the platform evolves, it is expected that the Smart Contracts used by the platform will change. For the DAO to construct the next evolution of the platform, there must be a way to retire old contracts and replace them with new contracts, as well as ways for rejecting contracts for being obsolete or with known vulnerabilities. Inevitably, this leads to requiring some kind of listing of approved and rejected smart contracts, and the DAO must have the ability to update this listing.
+
+\subsection{Architectural vision}
+
+Considering these requirements, we can start drafting the architecture of the platform.
+
+
+(Picture of the architecture)
+%\includesvg{arch.svg}
+
+The main considerations are:
+\begin{itemize}
+  \item The users of the platform (employers, freelancers and arbiters, among others) will use the dApp through their Daedalus wallets.
+  \item The dApp will connect to the Cardano blockchain using the Wallet API that Daedalus offers.
+  \item The dApp will store in the Cardano blockchain enough information for communicating, referencing and operating with job offers, job acceptances and escrows.
+  \item Any data that can be significantly big (such as the description of job offers) will be stored in external cloud services, and will be referenced in the smart contract. This data can be encrypted with the public key of the receiver to limit who can read it. Storing this data in the cloud is intended to reduce transaction fees.
+  \item The dApp will store locally references to commonly used information, such as references to your own profile, or references to previous jobs performed.
+  \item External cloud services will be used for intercommunication of the users of the platform. These services can include phone calls, text messages, chats and videoconferences. Care must be taken to ensure the authenticity of both users to each other. The communication avenue to be used can be referenced in the smart contract, thus allowing swapping services or using the most popular service for the community involved.
+\end{itemize}
 
 
 
