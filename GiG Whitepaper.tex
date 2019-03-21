@@ -37,6 +37,10 @@ A decentralized application for the labor marketplace that connects employers wi
 
 \end{abstract}
 
+\newpage
+\tableofcontents
+\newpage
+
 \section{Introduction}
 
 The Intuit 2020 Report\cite{intuit-2020-report} cites, among many predictions, that the gig economy will be about 43\% of the workforce by 2020. Specifically, \say{work shifts from full-time to free agent employment}, \say{the Great Recession will continue accelerating the long-term trend toward a contingent workforce. Contingent workers – freelancers, temps, part-time workers, contractors and other specialists – are hired on a nonpermanent basis and don’t have full-time employment status.}. \say{Over the next decade, the number of contingent employees will increase worldwide. In the U.S. alone, contingent workers will exceed 40 percent of the workforce by 2020.}. Finally, \say{over the next decade,
@@ -87,7 +91,10 @@ This policy has several effects:
 \section{Treasury System and DAO funding}
 All the ADA received by the GCSM is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}. The objective of this treasury system is the funding and administration of the development of the GiG Economy Token platform.
  
-\section{Creating Job Offers}
+\section{Main Use Cases}
+An application designed to connect employers and freelancers must offer basic use cases that allow completing the main type of transaction in the system: freelancer being able to work for an employer, and this freelancer getting paid by the employer when completing the work.
+
+\subsection{Creating Job Offers}
 An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
 This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
@@ -106,7 +113,7 @@ PlutusTx.makeLift ''JobOffer
 \end{verbatim}
 \end{samepage}
 
-\section{Applying for Job Offers}
+\subsection{Applying for Job Offers}
 
 In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in "A pub-sub mechanism for Cardano and Plutus"\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
 
@@ -124,7 +131,7 @@ PlutusTx.makeLift ''JobApplication
 \end{verbatim}
 \end{samepage}
 
-\section{Accepting Applications}
+\subsection{Accepting Applications by creating an Escrow}
 At this point, both the employer and the freelancer share some common agreement (the job contract), and both parties have copies of the public keys of the other. They can now use standard asymmetric-cipher communication to further discuss the job terms and the ability of the freelancer to deliver the job. This is not covered by this paper, but it's relevant for the mechanism to be complete, and therefore will be addressed in further publications.
 
 After the employer and the freelancer have reached an agreement, it is signed by the employer creating an escrow and locking the funds for payment. At this point, the freelancer can see the employer willingness to pay for the job by observing the escrow with the associated funds on the blockchain.
@@ -145,7 +152,7 @@ PlutusTx.makeLift ''EscrowSetup
 
 At this point, we have introduced another stakeholder without describing his role: the arbiter. The arbiter is a fundamental piece of the dispute resolution process that is described a few sections below.
 
-\section{Escrow Release}
+\subsection{Escrow Release}
 The freelancer now will proceed to deliver the work. When the employer agrees that the work has been delivered, he can release the funds in the escrow to the freelancer by posting a transaction to the escrow smart contract attaching his order to release as a RedeemerScript. This transaction is signed with the employer's private key, and assigns the funds to the freelancer's wallet.
 
 \begin{samepage}
@@ -159,7 +166,7 @@ PlutusTx.makeLift ''EscrowResult
 \end{samepage}
 
 
-\section{Dispute Resolution}
+\subsection{Dispute Resolution}
 Not every time the freelancer and the employer will agree on the outcome of the work delivered. When this happens, the employer may choose to not release the funds, which puts the situation in a stalemate, as the freelancer may not want to work more, and the employer has the funds locked in the smart contract.
 
 To break this stalemate we introduce a third party: an arbiter. The arbiter has been agreed upon before the escrow creation, and his public key is now part of the escrow DataScript. The arbiter has power to release the funds to the freelancer, or back to the employer, but not to himself. It is expected for the arbiter to review any evidence provided by the employer and the employee, and release the escrow in favor of the actor whom he deems is in the right.
