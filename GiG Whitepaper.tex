@@ -71,8 +71,9 @@ All these factors make this labour market significantly different from tradition
   \item With global specialists available for hire, hiring a full-time employee, and training him to become strong enough to compare with a specialist, is a losing battle. Not only is more expensive, it also takes more time, time that is used by the competition to get a hold of the market. Thus temporary, flexible jobs triump over hiring full-time employees.
 \end{enumerate}
 
+\section{The GET: Gig Economy Token}
 
-\section{GET Token Creation}
+\subsection{GET Token Creation}
 GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
 The amount of GET created and awarded to the ADA sender's wallet $\alpha$, will be an arbitrary constant $\phi$ (currently set to 1000 GET), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
 \[ \alpha
@@ -88,7 +89,7 @@ This policy has several effects:
   \item Speculative bubbles should be avoided, as the market price of the GET token will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
 \end{enumerate}
 
-\section{Treasury System and DAO funding}
+\subsection{Treasury System and DAO funding}
 All the ADA received by the GCSM is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}. The objective of this treasury system is the funding and administration of the development of the GiG Economy Token platform.
  
 \section{Main Use Cases}
@@ -471,15 +472,31 @@ The main considerations are:
   \item External cloud services will be used for intercommunication of the users of the platform. These services can include phone calls, text messages, chats and videoconferences. Care must be taken to ensure the authenticity of both users to each other. The communication avenue to be used can be referenced in the smart contract, thus allowing swapping services or using the most popular service for the community involved.
 \end{itemize}
 
-
-
 \section{Envisioned Features of the GiG System}
+On the Architectural Considerations, we specify some of the limitations that the current prototype has that limit the main use of the system: freelancers working for employers, and employers paying freelancers for the work performed.
+
+On this section we envision lifting these limitations in order to construct a dApp that is intended to streamline the process, helping along every step to improve the efficency of the users, and maximising the quality of the work delivered.
+
+\subsection{Communication Between Parties}
+
+After the employer has published a job offer and a freelancer has applied, it is expected that they communicate in order to figure out the last details of the job and agree on them. Further communication is expected if, while performing the job the freelancer finds unexpected surprises that need further discussion with the employer, or if the employer doesn't agree with the freelancer on the completion of work.
+
+Another party that has communication requirements is the arbiter. It is expected that the arbiter needs to coomunicate with both the employer and the freelancer as part of the process of gathering evidence before deciding who is in the right.
+
+For these reasons, it's fundamental for the GiG dApp to have a way to interconnect these parties. We understand there is a great choice of communication methods, and we think the GiG dApp shall support a generalised mechanism for connecting to phone calls, chats, messages and videoconferences. It must also support a notification system to help the user know when he is being contacted using any of the means specified.
+
+\subsection{Arbiter discovery and agreement}
+
+When a transaction doesn't go as expected, the parties will fill out a dispute. We have created a third stakeholder, the arbiter, who is intended to resolve the dispute. Not every person makes a good arbiter, and not every arbiter is good for every case. It is obvious that some kind of criteria must be used to figure out who is going to arbiter a case.
+
+Even if we have a good arbiter for a case, it is possible for the freelancer or the employer to disagree on the choice of arbiter, most usually because the arbiter may have a conflict of interest on behalf of one of the parties.
+
+All these reasons suggest making the arbiter part of the contract to be agreed before entering the escrow. We need a way for freelancers and employers to find and choose an arbiter they both agree to be good for the situation, so that they both agree later that the arbiter decided correctly, regardless of the side the arbiter decided to be in the right.
 
 \subsection{Geolocation Control}
 
 \subsection{Automatic Timesheets}
 
-\subsection{Communication Between Parties}
 
 
 \begin{thebibliography}{99}
