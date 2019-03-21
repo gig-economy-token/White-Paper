@@ -478,7 +478,7 @@ The main considerations are:
 \section{Envisioned Features of the GiG System}
 On the Architectural Considerations, we specify some of the limitations that the current prototype has that limit the main use of the system: freelancers working for employers, and employers paying freelancers for the work performed.
 
-On this section we envision lifting these limitations in order to construct a dApp that is intended to streamline the process, helping along every step to improve the efficency of the users, and maximising the quality of the work delivered.
+On this section we envision lifting these limitations in order to construct a dApp that is intended to streamline the process, helping along every step to improve the efficency and engagement of the users, and maximising the quality of the work delivered.
 
 \subsection{Communication Between Parties}
 
@@ -496,10 +496,30 @@ Even if we have a good arbiter for a case, it is possible for the freelancer or 
 
 All these reasons suggest making the arbiter part of the contract to be agreed before entering the escrow. We need a way for freelancers and employers to find and choose an arbiter they both agree to be good for the situation, so that they both agree later that the arbiter decided correctly, regardless of the side the arbiter decided to be in the right.
 
-\subsection{Geolocation Control}
+\subsection{Automated Collection of Evidence}
+
+It often happens that in the heat of delivering work, a freelancer may forget to collect evidence of the work performed. This is likely to complicate further steps on the path, because the employer may not have enough proof of the work performed, and neither will have the arbiter, therefore they may decide the freelancer didn't deliver the work.
+
+In order to reduce this and increase engagement, we envision several features designed to streamline delivering work and gathering evidence.
+
+\subsubsection{Geolocation Control}
+Many jobs require the freelancer to be located in a specific location at a designated time. For example, a B2B visitator is expected to visit the offices of the business being visited.
+
+Assumming the dApp to be installed in a mobile phone, and expecting the freelancer to carry such phone on his daily work, we can use the dApp to help him. For example we can use GPS localization to help by:
+
+\begin{itemize}
+  \item Offering a mapping feature that allows the freelancer to reach in an easier way the location where the work is intended to be performed, by finding the best route, calculating time to arrival, redirecting the route depending on the traffic, and many other features the mapping applications offer.
+  \item Automatically storing a geolocalization coordinate, along with the timestamp, when the freelancer reaches the destination.
+  \item Suggesting taking photographs of the work place visited when the system detects the freelancer is at the specified location.
+\end{itemize}
+
+This way we can improve collection of evidence for freelancers, while not making it burdersome.
 
 \subsection{Automatic Timesheets}
 
+For hourly workers, it's expected for them to deliver a timesheet prior to being paid. Tracking time tends to be error-prone, which means freelancers often forget the actual start time and end time, forcing them to estimate the time used, which, may cause employers to suspect of falsified timesheets.
+
+We can use Geolocation Control and Timestamping to be able to construct timesheets in an automated fashion. We can consider the job being started as soon as the freelancer is at the place required, and proof of it has been posted to the system, and we can consider the job being completed as soon as the freelancer leaves the place of work, again by posting it to the system. This way we can create better timesheets in an automated way.
 
 
 \begin{thebibliography}{99}
