@@ -3,6 +3,9 @@
 \usepackage{hyperref}
 \usepackage{dirtytalk}
 \usepackage{svg}
+\usepackage{tikz}
+\usepackage{textcomp}
+\usetikzlibrary{shapes,arrows, positioning}
 
 % aquote environment
 % from https://tex.stackexchange.com/questions/13756/quote-environment-with-reference-at-the-end-right
@@ -29,7 +32,7 @@
 \begin{abstract}
 A decentralized application for the labor marketplace that connects employers with independent contractors is described. GiG, a system that works on the Cardano blockchain, is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. 
 
-\paragraph{} The native currency of the system is the Gig Economy Token (GET). The algorithm used for its creation prevents speculative bubbles, and funds a Treasury System DAO (Decentralized Autonomous Organization). The DAO finances expenses for the ecosystem through proposals created and voted by the GiG community.
+\paragraph{} The native currency of the system is the Gig Economy Token (GET). The algorithm used for its creation prevents speculative bubbles, and funds a Treasury System DAO (Decentralized Autonomous Organization), while guaranteeing scarcity. The DAO finances expenses for the ecosystem through proposals created and voted by the GiG community.
 
 \paragraph{} GiG offers multiple tools that will give value to freelancers and employers, gaining the ability to interact without the need of trust, transacting on a peer to peer basis (without using financial institutions).
 
@@ -37,9 +40,13 @@ A decentralized application for the labor marketplace that connects employers wi
 
 \end{abstract}
 
+\newpage
+\tableofcontents
+\newpage
+
 \section{Introduction}
 
-The Intuit 2020 Report\cite{intuit-2020-report} cites, among many predictions, that the gig economy will be about 43\% of the workforce by 2020. Specifically, \say{work shifts from full-time to free agent employment}, \say{the Great Recession will continue accelerating the long-term trend toward a contingent workforce. Contingent workers – freelancers, temps, part-time workers, contractors and other specialists – are hired on a nonpermanent basis and don’t have full-time employment status.}. \say{Over the next decade, the number of contingent employees will increase worldwide. In the U.S. alone, contingent workers will exceed 40 percent of the workforce by 2020.}. Finally, \say{over the next decade,
+The Intuit 2020 Report\cite{intuit-2020-report} cites, among many predictions, that the gig economy will be about 43\% of the workforce by 2020. Specifically, \say{work shifts from full-time to free agent employment}, \say{the Great Recession will continue accelerating the long-term trend toward a contingent workforce. Contingent workers – freelancers, temps, part-time workers, contractors and other specialists – are hired on a nonpermanent basis and don’t have full-time employment status.}. \say{Over the next decade, the number of contingent employees will increase worldwide. In the U.S. alone, contingent workers will exceedate 40 percent of the workforce by 2020.}. Finally, \say{over the next decade,
 small businesses will develop their own collaborative networks of contingent workers, minimizing fixed labor costs and expanding the available talent pool}.
 
 \paragraph{}The tendencies that these predictions suggest, are giving a heightened importance and value to systems that allow freelancers and employers to connect and interact.
@@ -69,33 +76,34 @@ All these factors make this labour market significantly different from tradition
   \item Here we should describe "why the blockchain". Then, we need a chapter describing the use of the GET token. And then, we can talk about the GET token creation.
 \end{enumerate}
 
+\section{System Overview}
+\begin{tikzpicture}[
+node distance = 4mm and 22mm
+                        ]
+\node (cjo) [draw,minimum size=24mm] {Create Job Offer};
+\node[draw,rectangle,inner sep=0.3cm] (afj) at (3.625,-2) {Apply for Job};
+\coordinate[above left = of cjo.west]   (a1);
+\coordinate[below = of a1]              (a2);
+\coordinate[below = of a2]              (a3);
+\coordinate[above right= 8mm and 22mm of cjo.east]  (joh);
+\coordinate[below=of joh]  (joh);
+%
+\foreach \i [count=\xi from 1] in {EmployerPubKey,[Locations],PaymentAmount}
+\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+%\foreach \i [count=\xi from 1] in {Job Offer Hash}
+\draw[-latex'] (cjo.east |- joh) -- (joh) node[right] {Job Offer Hash};
+\draw[-latex'] (joh) -- (afj);
+\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+\end{tikzpicture}
 
-\section{GET Token Creation}
-GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
-The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000 GET), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
-
-\[ \alpha
-  = \dfrac{\phi}{\ell}
-\]
-
-This policy has several effects:
-
-\begin{enumerate}
-
-  \item The cost of producing GET tokens via the smart contract will increase over time. 
-  \item It provides an incentive to adopt the GiG Economy Token sooner than later. It can be compared to the Bitcoin Halving event. 
-  \item After enough time, the conversion rate plateaus, thus providing a temporary price roof (in terms of ADA, at least). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET rather than buying it in the exchanges.
-  \item Creating new tokens costs more over time, thus putting a positive price pressure on the existing tokens.
-  \item Speculative bubbles will be avoided, as the market price of the GET token will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
-\end{enumerate}
-
-\section{Treasury System and DAO funding}
-All the ADA received by the GCSM is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}. The objective of this treasury system is the funding and administration of the development of the GiG Economy Token platform.
  
-\section{Creating Job Offers}
+\section{Main Use Cases}
+An application designed to connect employers and freelancers must offer basic use cases that allow completing the main type of transaction in the system: freelancer being able to work for an employer, and this freelancer getting paid by the employer when completing the work.
+
+\subsection{Creating Job Offers}
 An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
-This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
+This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to brocjoast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
 
 The first iteration of the protocol contains just enough information to prove communication can be achieved, and may be extended later with fields of interest.
 
@@ -111,7 +119,7 @@ PlutusTx.makeLift ''JobOffer
 \end{verbatim}
 \end{samepage}
 
-\section{Applying for Job Offers}
+\subsection{Applying for Job Offers}
 
 In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in "A pub-sub mechanism for Cardano and Plutus"\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
 
@@ -129,7 +137,7 @@ PlutusTx.makeLift ''JobApplication
 \end{verbatim}
 \end{samepage}
 
-\section{Accepting Applications}
+\subsection{Accepting Applications by creating an Escrow}
 At this point, both the employer and the freelancer share some common agreement (the job contract), and both parties have copies of the public keys of the other. They can now use standard asymmetric-cipher communication to further discuss the job terms and the ability of the freelancer to deliver the job. This is not covered by this paper, but it's relevant for the mechanism to be complete, and therefore will be addressed in further publications.
 
 After the employer and the freelancer have reached an agreement, it is signed by the employer creating an escrow and locking the funds for payment. At this point, the freelancer can see the employer willingness to pay for the job by observing the escrow with the associated funds on the blockchain.
@@ -150,7 +158,7 @@ PlutusTx.makeLift ''EscrowSetup
 
 At this point, we have introduced another stakeholder without describing his role: the arbiter. The arbiter is a fundamental piece of the dispute resolution process that is described a few sections below.
 
-\section{Escrow Release}
+\subsection{Escrow Release}
 The freelancer now will proceed to deliver the work. When the employer agrees that the work has been delivered, he can release the funds in the escrow to the freelancer by posting a transaction to the escrow smart contract attaching his order to release as a RedeemerScript. This transaction is signed with the employer's private key, and assigns the funds to the freelancer's wallet.
 
 \begin{samepage}
@@ -164,7 +172,7 @@ PlutusTx.makeLift ''EscrowResult
 \end{samepage}
 
 
-\section{Dispute Resolution}
+\subsection{Dispute Resolution}
 Not every time the freelancer and the employer will agree on the outcome of the work delivered. When this happens, the employer may choose to not release the funds, which puts the situation in a stalemate, as the freelancer may not want to work more, and the employer has the funds locked in the smart contract.
 
 To break this stalemate we introduce a third party: an arbiter. The arbiter has been agreed upon before the escrow creation, and his public key is now part of the escrow DataScript. The arbiter has power to release the funds to the freelancer, or back to the employer, but not to himself. It is expected for the arbiter to review any evidence provided by the employer and the employee, and release the escrow in favor of the actor whom he deems is in the right.
@@ -320,6 +328,33 @@ jobEscrowContract = ValidatorScript ($$(Ledger.compileScript [||
 \end{verbatim}
 \end{samepage}
 
+\section{The GET: Gig Economy Token}
+
+(Write here why the GET shall exist)
+(Is this section too soon to present the token? We haven't talked yet how we are going to solve the Gig Economy and we are already talking about a token)
+
+\subsection{GET Token Creation}
+GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
+The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000 GET), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
+
+\[ \alpha
+  = \dfrac{\phi}{\ell}
+\]
+
+This policy has several effects:
+
+\begin{enumerate}
+
+  \item The cost of producing GET tokens via the smart contract will increase over time. 
+  \item It provides an incentive to adopt the GiG Economy Token sooner than later. It can be compared to the Bitcoin Halving event. 
+  \item After enough time, the conversion rate plateaus, thus providing a temporary price roof (in terms of ADA, at least). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET rather than buying it in the exchanges.
+  \item Creating new tokens costs more over time, thus putting a positive price pressure on the existing tokens.
+  \item Speculative bubbles will be avoided, as the market price of the GET token will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
+\end{enumerate}
+
+\subsection{Treasury System and DAO funding}
+All the ADA received by the GCSM is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}. The objective of this treasury system is the funding and administration of the development of the GiG Economy Token platform.
+
 \section{Prototype application}
 At the time of writing this document, Plutus is not yet available in a testnet, and whoever want to try it have to use it through the Plutus Playground, or through the underlying emulator the Plutus Playground uses: the Mockchain.
 
@@ -469,16 +504,58 @@ The main considerations are:
   \item External cloud services will be used for intercommunication of the users of the platform. These services can include phone calls, text messages, chats and videoconferences. Care must be taken to ensure the authenticity of both users to each other. The communication avenue to be used can be referenced in the smart contract, thus allowing swapping services or using the most popular service for the community involved.
 \end{itemize}
 
-
-
 \section{Envisioned Features of the GiG System}
+On the Architectural Considerations, we specify some of the limitations that the current prototype has that limit the main use of the system: freelancers working for employers, and employers paying freelancers for the work performed.
 
-\subsection{Geolocation Control}
-
-\subsection{Automatic Timesheets}
+On this section we envision lifting these limitations in order to construct a dApp that is intended to streamline the process, helping along every step to improve the efficency and engagement of the users, and maximising the quality of the work delivered.
 
 \subsection{Communication Between Parties}
 
+After the employer has published a job offer and a freelancer has applied, it is expected that they communicate in order to figure out the last details of the job and agree on them. Further communication is expected if, while performing the job the freelancer finds unexpected surprises that need further discussion with the employer, or if the employer doesn't agree with the freelancer on the completion of work.
+
+Another party that has communication requirements is the arbiter. It is expected that the arbiter needs to coomunicate with both the employer and the freelancer as part of the process of gathering evidence before deciding who is in the right.
+
+For these reasons, it's fundamental for the GiG dApp to have a way to interconnect these parties. We understand there is a great choice of communication methods, and we think the GiG dApp shall support a generalised mechanism for connecting to phone calls, chats, messages and videoconferences. It must also support a notification system to help the user know when he is being contacted using any of the means specified.
+
+\subsection{Arbiter discovery and agreement}
+
+When a transaction doesn't go as expected, the parties will fill out a dispute. We have created a third stakeholder, the arbiter, who is intended to resolve the dispute. Not every person makes a good arbiter, and not every arbiter is good for every case. It is obvious that some kind of criteria must be used to figure out who is going to arbiter a case.
+
+Even if we have a good arbiter for a case, it is possible for the freelancer or the employer to disagree on the choice of arbiter, most usually because the arbiter may have a conflict of interest on behalf of one of the parties.
+
+All these reasons suggest making the arbiter part of the contract to be agreed before entering the escrow. We need a way for freelancers and employers to find and choose an arbiter they both agree to be good for the situation, so that they both agree later that the arbiter decided correctly, regardless of the side the arbiter decided to be in the right.
+
+\subsection{Automated Collection of Evidence}
+
+It often happens that in the heat of delivering work, a freelancer may forget to collect evidence of the work performed. This is likely to complicate further steps on the path, because the employer may not have enough proof of the work performed, and neither will have the arbiter, therefore they may decide the freelancer didn't deliver the work.
+
+In order to reduce this and increase engagement, we envision several features designed to streamline delivering work and gathering evidence.
+
+\subsubsection{Geolocation Control}
+
+Many jobs require the freelancer to be located in a specific location at a designated time. For example, a B2B visitator is expected to visit the offices of the business being visited.
+
+Assumming the dApp to be installed in a mobile phone, and expecting the freelancer to carry such phone on his daily work, we can use the dApp to help him. For example we can use GPS localization to help by:
+
+\begin{itemize}
+  \item Offering a mapping feature that allows the freelancer to reach in an easier way the location where the work is intended to be performed, by finding the best route, calculating time to arrival, redirecting the route depending on the traffic, and many other features the mapping applications offer.
+  \item Automatically storing a geolocalization coordinate, along with the timestamp, when the freelancer reaches the destination.
+  \item Suggesting taking photographs of the work place visited when the system detects the freelancer is at the specified location.
+\end{itemize}
+
+This way we can improve collection of evidence for freelancers, while not making it burdersome.
+
+\subsection{Automatic Timesheets}
+
+For hourly workers, it's expected for them to deliver a timesheet prior to being paid. Tracking time tends to be error-prone, which means freelancers often forget the actual start time and end time, forcing them to estimate the time used, which, may cause employers to suspect of falsified timesheets.
+
+We can use Geolocation Control and Timestamping to be able to construct timesheets in an automated fashion. We can consider the job being started as soon as the freelancer is at the place required, and proof of it has been posted to the system, and we can consider the job being completed as soon as the freelancer leaves the place of work, again by posting it to the system. This way we can create better timesheets in an automated way.
+
+\section{Conclusions}
+
+On this document we described our progress at constructing a decentralized platform for supporting the people that make the Gig Economy. We used Plutus and the Cardano blockchain to support our objectives, and learned valuable lessons on how this system can be constructed, and how it can evolve to suport the ever changing world.
+
+Further research should be directed to construct a dApp, and figure out how to construct the correct features for the GiG Economy Platform to succeed in different markets. This research will be addressed in further refinements of this whitepaper, as well as on related papers to be written in the future.
 
 \begin{thebibliography}{99}
 
