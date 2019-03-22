@@ -4,6 +4,8 @@
 \usepackage{dirtytalk}
 \usepackage{svg}
 \usepackage{tikz}
+\usepackage{textcomp}
+\usetikzlibrary{shapes,arrows, positioning}
 
 % aquote environment
 % from https://tex.stackexchange.com/questions/13756/quote-environment-with-reference-at-the-end-right
@@ -74,32 +76,26 @@ All these factors make this labour market significantly different from tradition
   \item Here we should describe "why the blockchain". Then, we need a chapter describing the use of the GET token. And then, we can talk about the GET token creation.
 \end{enumerate}
 
-\section{The GET: Gig Economy Token}
+\section{System Overview}
+\begin{tikzpicture}[
+node distance = 4mm and 22mm
+                        ]
+\node (cjo) [draw,minimum size=24mm] {Create Job Offer};
+\node[draw,rectangle,inner sep=0.3cm] (afj) at (3.625,-2) {Apply for Job};
+\coordinate[above left = of cjo.west]   (a1);
+\coordinate[below = of a1]              (a2);
+\coordinate[below = of a2]              (a3);
+\coordinate[above right= 8mm and 22mm of cjo.east]  (joh);
+\coordinate[below=of joh]  (joh);
+%
+\foreach \i [count=\xi from 1] in {EmployerPubKey,[Locations],PaymentAmount}
+\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+%\foreach \i [count=\xi from 1] in {Job Offer Hash}
+\draw[-latex'] (cjo.east |- joh) -- (joh) node[right] {Job Offer Hash};
+\draw[-latex'] (joh) -- (afj);
+\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+\end{tikzpicture}
 
-(Write here why the GET shall exist)
-(Is this section too soon to present the token? We haven't talked yet how we are going to solve the Gig Economy and we are already talking about a token)
-
-\subsection{GET Token Creation}
-GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
-The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000 GET), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
-
-\[ \alpha
-  = \dfrac{\phi}{\ell}
-\]
-
-This policy has several effects:
-
-\begin{enumerate}
-
-  \item The cost of producing GET tokens via the smart contract will increase over time. 
-  \item It provides an incentive to adopt the GiG Economy Token sooner than later. It can be compared to the Bitcoin Halving event. 
-  \item After enough time, the conversion rate plateaus, thus providing a temporary price roof (in terms of ADA, at least). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET rather than buying it in the exchanges.
-  \item Creating new tokens costs more over time, thus putting a positive price pressure on the existing tokens.
-  \item Speculative bubbles will be avoided, as the market price of the GET token will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
-\end{enumerate}
-
-\subsection{Treasury System and DAO funding}
-All the ADA received by the GCSM is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}. The objective of this treasury system is the funding and administration of the development of the GiG Economy Token platform.
  
 \section{Main Use Cases}
 An application designed to connect employers and freelancers must offer basic use cases that allow completing the main type of transaction in the system: freelancer being able to work for an employer, and this freelancer getting paid by the employer when completing the work.
@@ -107,7 +103,7 @@ An application designed to connect employers and freelancers must offer basic us
 \subsection{Creating Job Offers}
 An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
-This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
+This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to brocjoast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
 
 The first iteration of the protocol contains just enough information to prove communication can be achieved, and may be extended later with fields of interest.
 
@@ -331,6 +327,33 @@ jobEscrowContract = ValidatorScript ($$(Ledger.compileScript [||
   ||]))
 \end{verbatim}
 \end{samepage}
+
+\section{The GET: Gig Economy Token}
+
+(Write here why the GET shall exist)
+(Is this section too soon to present the token? We haven't talked yet how we are going to solve the Gig Economy and we are already talking about a token)
+
+\subsection{GET Token Creation}
+GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
+The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000 GET), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
+
+\[ \alpha
+  = \dfrac{\phi}{\ell}
+\]
+
+This policy has several effects:
+
+\begin{enumerate}
+
+  \item The cost of producing GET tokens via the smart contract will increase over time. 
+  \item It provides an incentive to adopt the GiG Economy Token sooner than later. It can be compared to the Bitcoin Halving event. 
+  \item After enough time, the conversion rate plateaus, thus providing a temporary price roof (in terms of ADA, at least). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET rather than buying it in the exchanges.
+  \item Creating new tokens costs more over time, thus putting a positive price pressure on the existing tokens.
+  \item Speculative bubbles will be avoided, as the market price of the GET token will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
+\end{enumerate}
+
+\subsection{Treasury System and DAO funding}
+All the ADA received by the GCSM is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}. The objective of this treasury system is the funding and administration of the development of the GiG Economy Token platform.
 
 \section{Prototype application}
 At the time of writing this document, Plutus is not yet available in a testnet, and whoever want to try it have to use it through the Plutus Playground, or through the underlying emulator the Plutus Playground uses: the Mockchain.
