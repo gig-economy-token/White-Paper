@@ -1,4 +1,5 @@
 \documentclass{article}
+
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{dirtytalk}
@@ -6,6 +7,11 @@
 \usepackage{tikz}
 \usepackage{textcomp}
 \usetikzlibrary{shapes,arrows, positioning}
+\usepackage{pstricks}    %for embedding pspicture.
+\usepackage{pst-plot}
+\usepackage{auto-pst-pdf}
+\usepackage{graphicx}    %for figure environment.
+
 
 % aquote environment
 % from https://tex.stackexchange.com/questions/13756/quote-environment-with-reference-at-the-end-right
@@ -28,6 +34,7 @@
 \begin{document}
 
 \maketitle
+
 
 \begin{abstract}
 A decentralized application for the labor marketplace that connects employers with independent contractors is described. GiG, a system that works on the Cardano blockchain, is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. 
@@ -120,6 +127,7 @@ PlutusTx.makeLift ''JobOffer
 \end{samepage}
 
 \subsection{Applying for Job Offers}
+
 
 In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in "A pub-sub mechanism for Cardano and Plutus"\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
 
@@ -490,9 +498,13 @@ As the platform evolves, it is expected that the Smart Contracts used by the pla
 
 Considering these requirements, we can start drafting the architecture of the platform.
 
-
-(Picture of the architecture)
-%\includesvg{arch.svg}
+\begin{figure}[h]
+  \centering{
+    \large
+    \resizebox{\textwidth}{!}{\input{diagrams/arch.tex}}
+  }
+  \caption{Architectural vision of the dApp} \label{fig:figureone}
+\end{figure}
 
 The main considerations are:
 \begin{itemize}
