@@ -2,3 +2,7 @@
 *.log
 *.out
 *.bak
+*.dvi
+*.toc
+*.ps
+*~
