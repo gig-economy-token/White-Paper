@@ -14,7 +14,6 @@
 \def\signed #1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
   \hbox{}\nobreak\hfil(#1)%
   \parfillskip=0pt \finalhyphendemerits=0 \endgraf}}
-
 \newsavebox\mybox
 \newenvironment{aquote}[1]
   {\savebox\mybox{#1}\begin{quote}}
@@ -76,25 +75,51 @@ All these factors make this labour market significantly different from tradition
   \item Here we should describe "why the blockchain". Then, we need a chapter describing the use of the GET token. And then, we can talk about the GET token creation.
 \end{enumerate}
 
+\newpage
 \section{System Overview}
-\begin{tikzpicture}[
-node distance = 4mm and 22mm
-                        ]
-\node (cjo) [draw,minimum size=24mm] {Create Job Offer};
-\node[draw,rectangle,inner sep=0.3cm] (afj) at (3.625,-2) {Apply for Job};
+
+\begin{tikzpicture}[%
+    %,node distance=30mm
+    ,>=latex'
+    ,block/.style = {%
+        ,draw
+        ,minimum height=20mm,minimum width=40mm
+        ,align=center
+        }
+    ,every path/.style={->} 
+    ]
+\node (cjo) [block] {Create Job Offer};
+%\coordinate[below right= 8mm and 8mm of cjo.east]  (joh);
+\node (afj) [block, below= of cjo] {Apply for Job};
+\node (aja) [block, below=of afj] {Accept Job Application};
+\node (re) [block, below=of aja] {Release Escrow};
+
+
+%\draw (cjo) to (joh);
+%\draw[-latex'] (cjo.east |- joh) -- (joh) node[below = 20mm of cjo] {Job Offer Hash};
+%\draw (joh) to (afj);
+%\draw (afj) to (aja);
+
+% Data for Apply for Job
 \coordinate[above left = of cjo.west]   (a1);
 \coordinate[below = of a1]              (a2);
 \coordinate[below = of a2]              (a3);
-\coordinate[above right= 8mm and 22mm of cjo.east]  (joh);
-\coordinate[below=of joh]  (joh);
-%
-\foreach \i [count=\xi from 1] in {EmployerPubKey,[Locations],PaymentAmount}
-\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+\foreach \i [count=\xi from 1] in
+{
+    EmployerPubKey,
+    [Locations],
+    PaymentAmount
+}
+    \draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+
+%\coordinate[below=of joh]  (joh);
+%\coordinate[left = of afj.west]  (joh);
+% \draw[-latex']  (joh) node[left] {Job Offer Hash} -- (cjo-| afj.west);
 %\foreach \i [count=\xi from 1] in {Job Offer Hash}
-\draw[-latex'] (cjo.east |- joh) -- (joh) node[right] {Job Offer Hash};
-\draw[-latex'] (joh) -- (afj);
-\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+%\draw[-latex'] (joh) -- (afj);
+%\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
 \end{tikzpicture}
+\newpage
 
  
 \section{Main Use Cases}
