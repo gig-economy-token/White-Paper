@@ -335,7 +335,7 @@ jobEscrowContract = ValidatorScript ($$(Ledger.compileScript [||
 
 \subsection{GET Token Creation}
 GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
-The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000), divided by a denominator composed by the block height $\ell$ divided by 129600, rounded up, starting from the first block since the GET creation smart contract gets published. That is,
+The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000), divided by the block height $\ell$, rounded up, starting from the first block since the GET creation smart contract gets published. That is,
 
 \[ \alpha
   = \dfrac{\phi}{129600}
