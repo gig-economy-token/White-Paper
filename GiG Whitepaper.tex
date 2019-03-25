@@ -360,7 +360,7 @@ jobEscrowContract = ValidatorScript ($$(Ledger.compileScript [||
 
 \subsection{GET Token Creation}
 GET tokens are created when ADA is received by the GET creation smart contract (GCSM).
-The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000 GET), divided by the block height $\ell$, starting from the first block since the GET creation smart contract gets published. That is,
+The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000), divided by the block height $\ell$, rounded up, starting from the first block since the GET creation smart contract gets published. That is,
 
 \[ \alpha
   = \dfrac{\phi}{\ell}
@@ -371,14 +371,37 @@ This policy has several effects:
 \begin{enumerate}
 
   \item The cost of producing GET tokens via the smart contract will increase over time. 
-  \item It provides an incentive to adopt the GiG Economy Token sooner than later. It can be compared to the Bitcoin Halving event. 
-  \item After enough time, the conversion rate plateaus, thus providing a temporary price roof (in terms of ADA, at least). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET rather than buying it in the exchanges.
+  \item It provides an incentive to adopt the GiG Economy Token sooner than later. 
+  \item The conversion rate provides a temporary price roof (in terms of ADA). In detail, if the market price climbs higher than the cost of creating GET, market actors will prefer producing GET via the smart contract rather than buying it in the market.
   \item Creating new tokens costs more over time, thus putting a positive price pressure on the existing tokens.
-  \item Speculative bubbles will be avoided, as the market price of the GET token will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
+  \item Speculative pumps and dumps will be avoided, as the market price of buying GET will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
+  \item In the long term, creating GET through the GCSM will not be attractive, this means the GET supply has a theoretical hard cap.
+  \item All the GET created by the GCSM will fund the DAO. So, if the market price pumps in a way that exceeds the cost of creating GET through the GCSM, there is an incentive to fund the DAO.
 \end{enumerate}
 
-\subsection{Treasury System and DAO funding}
+\subsection{Treasury System and DAO}
+
 All the ADA received by the GCSM is managed by a treasury system DAO based on the research made by IOHK for the Zendao \cite{zhangb2}. The objective of this treasury system is the funding and administration of the development of the GiG Economy Token platform.
+
+A treasury system is a descentralized decision-making fund controlled by the community. It represents a mechanism to fund the development and mantainance of a project. It provides means for collaborative intelligence through democratic processes and vote delegation. 
+
+Given the descentralized nature of the project, it is not coherent that it would get founding solely from an ICO or a founder's reward, this would put pressure on a central instution. In contrast, creating a Descentralized Autonomous Organization (DAO) to fund the project lets the stake holders of the GIG token decide how to use the funds that will power the plataform. 
+
+Although a detailed description of the DAO's functionality can be found in the Zendao paper by IOHK, this are some of its features that are worth mentioning:
+
+\begin{enumerate}
+
+  \item Participating node's voting power will be proportional to the amount of coins in stake. 
+  \item The treasury system will not link voters to their real identities.
+  \item A vote can be represented as "Yes/No/Abstain".
+  \item During each treasury period, a finite amount of proposals are elected by the stakers, this proposals will receive the funds from the DAO's treasury.
+   
+\end{enumerate}
+
+
+\subsection{DAO funding}
+
+
 
 \section{Prototype application}
 At the time of writing this document, Plutus is not yet available in a testnet, and whoever want to try it have to use it through the Plutus Playground, or through the underlying emulator the Plutus Playground uses: the Mockchain.
