@@ -1,15 +1,14 @@
 \documentclass{article}
+
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{dirtytalk}
-\usepackage{svg}
 \usepackage{tikz}
 \usepackage{textcomp}
 \usetikzlibrary{shapes,arrows, positioning}
 
 % aquote environment
 % from https://tex.stackexchange.com/questions/13756/quote-environment-with-reference-at-the-end-right
-
 
 \def\signed #1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
   \hbox{}\nobreak\hfil(#1)%
@@ -103,7 +102,7 @@ An application designed to connect employers and freelancers must offer basic us
 \subsection{Creating Job Offers}
 An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
-This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to brocjoast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
+This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the \emph{Job Board}. This initial transaction may have no ADA associated, and it's intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
 
 The first iteration of the protocol contains just enough information to prove communication can be achieved, and may be extended later with fields of interest.
 
@@ -121,9 +120,10 @@ PlutusTx.makeLift ''JobOffer
 
 \subsection{Applying for Job Offers}
 
-In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in "A pub-sub mechanism for Cardano and Plutus"\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
 
-Now that the freelancer can understand what the job demands, he can apply to it. In this context, application means that the freelancer considers himself good enough to deliver the job required, but the employer may disagree. This is why further filtering before the job is done and the payment is delivered is needed. In this case, the freelancer posts his application to a different address, that we call the "Job Application Board". This address is derived automatically from the main Job Board address, hashing into it the specific details of the job.
+In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in ``A pub-sub mechanism for Cardano and Plutus''\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
+
+Now that the freelancer can understand what the job demands, he can apply to it. In this context, application means that the freelancer considers himself good enough to deliver the job required, but the employer may disagree. This is why further filtering before the job is done and the payment is delivered is needed. In this case, the freelancer posts his application to a different address, that we call the \emph{Job Application Board}. This address is derived automatically from the main Job Board address, hashing into it the specific details of the job.
 
 The freelancer posts to this Job Application Board his public key, and possibly some relevant information. For the first iteration of the protocol, we have decided that the freelancer will only post his public key.
 
@@ -490,9 +490,13 @@ As the platform evolves, it is expected that the Smart Contracts used by the pla
 
 Considering these requirements, we can start drafting the architecture of the platform.
 
-
-(Picture of the architecture)
-%\includesvg{arch.svg}
+\begin{figure}[h]
+  \centering{
+    \large
+    \resizebox{\textwidth}{!}{\input{diagrams/arch.tex}}
+  }
+  \caption{Architectural vision of the dApp} \label{fig:figureone}
+\end{figure}
 
 The main considerations are:
 \begin{itemize}
