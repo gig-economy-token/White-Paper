@@ -338,19 +338,18 @@ GET tokens are created when ADA is received by the GET creation smart contract (
 The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000), divided by a denominator composed by the block height $\ell$ divided by 129600, rounded up, starting from the first block since the GET creation smart contract gets published. That is,
 
 \[ \alpha
-  = \dfrac{\phi}{\dfrac{\ell}{129600}}
+  = \dfrac{\phi}{129600}
 \]
 
 This policy has several effects:
 
 \begin{enumerate}
 
-  \item Since Cardano's blocks are produced every 20 seconds, 129600 represents the amount of blocks produced in one month. That means, because  the denominator is rounded up, the first month it will be equal to 1, the second month it will be 2 and so on.
   \item The cost of producing GET tokens via the smart contract will increase over time. 
-  \item It provides an incentive to adopt the GiG Economy Token sooner than later. It can be somehow compared to the Bitcoin Halving event. 
-  \item The conversion rate provides a temporary price roof (in terms of ADA, at least). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET via the smart contract rather than buying it in the exchanges.
+  \item It provides an incentive to adopt the GiG Economy Token sooner than later. 
+  \item The conversion rate provides a temporary price roof (in terms of ADA). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET via the smart contract rather than buying it in the exchanges.
   \item Creating new tokens costs more over time, thus putting a positive price pressure on the existing tokens.
-  \item Speculative bubbles will be avoided, as the market price of buying GET will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
+  \item Speculative pumps and dumps will be avoided, as the market price of buying GET will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
   \item In the long term, creating GET through the GCSM will not be attractive, this means the GET supply has a theoretical hard cap.
   \item All the GET created by the GCSM will fund the DAO. So, if the market price pumps in a way that exceeds the cost of creating GET through the GCSM, there is an incentive to fund the DAO.
 \end{enumerate}
