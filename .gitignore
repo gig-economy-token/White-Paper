@@ -2,3 +2,6 @@
 *.log
 *.out
 *.bak
+*.pdf
+*.toc
+*.gz
