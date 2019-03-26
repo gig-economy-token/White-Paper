@@ -376,7 +376,13 @@ Although a detailed description of the DAO's functionality can be found in the Z
 
 \subsection{DAO funding}
 
+Since the DAO will sustain de investment for development, mantainance and marketing efforts for the platform, it is important to keep it funded. Capital will flow to the DAO in two different ways:
 
+\begin{enumerate}
+  \item The first method is through GET creation in the Get Creation Smart Contract. All the ADA received by the smart contract will fill the DAO.
+  \item The second method is through the use of the platform. Every time a Job offer is created, the employer must send an amount of GET equal to 5 percent of the proposed salary to the Job offer smart contract. When the employer accepts an employee for a job offer, this will trigger the creation of the same amount of GET and send it to the DAO. In practical terms: 
+  An employer creates a job offer with a proposed reward of 200 dollars, he has to send 10 dollars of GET to the smart contract, this amount will be used for criptoeconomic incentives described in the section X. When the employer accepts an application for the job offer, 10 dollars of GET will be created and sent to the DAO. This means the DAO will be funded by inflation, but this inflation is correlated with the use and popularity of the platform. 
+\end{enumerate}
 
 \section{Prototype application}
 At the time of writing this document, Plutus is not yet available in a testnet, and whoever want to try it have to use it through the Plutus Playground, or through the underlying emulator the Plutus Playground uses: the Mockchain.
