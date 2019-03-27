@@ -401,7 +401,20 @@ Although a detailed description of the DAO's functionality can be found in the Z
 
 \subsection{DAO funding}
 
+Since the DAO will sustain de investment for development, mantainance and marketing efforts for the platform, it is important to keep it funded. Capital will flow to the DAO in two different ways:
 
+\begin{enumerate}
+  \item The first method is through GET creation in the Get Creation Smart Contract. All the ADA received by the smart contract will fund the DAO.
+  \item The second method is through the use of the platform. Every time a job is completed, an inflation equivalent to 10\% of the escrow released to the freelancer is added to GET's monetary base. All the GET created this way also funds the DAO. This inflation is correlated with the use and popularity of the platform. 
+\end{enumerate}
+
+\subsection{GET token utility}
+
+The GET token will be required to post job offers. As described in the last section, every job offer will require the employer to lock 5 percent of the proposed salary into the smart contract. 
+
+The amount will be split in half. One part will be awarded to a possible referer for the job. The other part will be given to the employee that was selected for the job. If there are no referers linked in the smart contract, all the GET will go to the selected employee. If there is no selected employee for the job, the locked amount will return to the employer. This will create a demand for the GET token and give it a market value. Also, the possibility of leveraging on referals for job offers is important since market influencers will use their addresses to earn income as they reffer people to use the platform.
+
+Finnally, it is important for the employer to pay an amount in order generate the job in order to avoid sybil attacks. And it ensures a commitment from the employer to find applicants, this is necessary because it will create an incentive to the employer to review applications and post well detailed job offers.
 
 \section{Prototype application}
 At the time of writing this document, Plutus is not yet available in a testnet, and whoever want to try it have to use it through the Plutus Playground, or through the underlying emulator the Plutus Playground uses: the Mockchain.

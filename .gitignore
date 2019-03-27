@@ -2,8 +2,10 @@
 *.log
 *.out
 *.bak
+*.pdf
+*.toc
+*.gz
 *.dvi
 *.toc
 *.ps
 *~
-*.pdf
