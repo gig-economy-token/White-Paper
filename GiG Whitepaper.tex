@@ -1,8 +1,8 @@
 \documentclass{article}
-
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{dirtytalk}
+\usepackage{svg}
 \usepackage{tikz}
 \usepackage{textcomp}
 \usetikzlibrary{shapes,arrows, positioning}
@@ -10,9 +10,11 @@
 % aquote environment
 % from https://tex.stackexchange.com/questions/13756/quote-environment-with-reference-at-the-end-right
 
+
 \def\signed #1{{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
   \hbox{}\nobreak\hfil(#1)%
   \parfillskip=0pt \finalhyphendemerits=0 \endgraf}}
+
 \newsavebox\mybox
 \newenvironment{aquote}[1]
   {\savebox\mybox{#1}\begin{quote}}
@@ -32,7 +34,7 @@ A decentralized application for the labor marketplace that connects employers wi
 
 \paragraph{} The native currency of the system is the Gig Economy Token (GET). The algorithm used for its creation prevents speculative bubbles, and funds a Treasury System DAO (Decentralized Autonomous Organization), while guaranteeing scarcity. The DAO finances expenses for the ecosystem through proposals created and voted by the GiG community.
 
-\paragraph{} GiG offers multiple tools that will give value to freelancers and employers, gaining the ability to interact without the need of trust, transacting on a peer to peer basis.
+\paragraph{} GiG offers multiple tools that will give value to freelancers and employers, gaining the ability to interact without the need of trust, transacting on a peer to peer basis (without using financial institutions).
 
 \paragraph{} Note: GiG is under construction. New versions of this paper will be updated periodically.
 
@@ -74,51 +76,25 @@ All these factors make this labour market significantly different from tradition
   \item Here we should describe "why the blockchain". Then, we need a chapter describing the use of the GET token. And then, we can talk about the GET token creation.
 \end{enumerate}
 
-\newpage
 \section{System Overview}
-
-\begin{tikzpicture}[%
-    %,node distance=30mm
-    ,>=latex'
-    ,block/.style = {%
-        ,draw
-        ,minimum height=20mm,minimum width=40mm
-        ,align=center
-        }
-    ,every path/.style={->} 
-    ]
-\node (cjo) [block] {Create Job Offer};
-%\coordinate[below right= 8mm and 8mm of cjo.east]  (joh);
-\node (afj) [block, below= of cjo] {Apply for Job};
-\node (aja) [block, below=of afj] {Accept Job Application};
-\node (re) [block, below=of aja] {Release Escrow};
-
-
-%\draw (cjo) to (joh);
-%\draw[-latex'] (cjo.east |- joh) -- (joh) node[below = 20mm of cjo] {Job Offer Hash};
-%\draw (joh) to (afj);
-%\draw (afj) to (aja);
-
-% Data for Apply for Job
+\begin{tikzpicture}[
+node distance = 4mm and 22mm
+                        ]
+\node (cjo) [draw,minimum size=24mm] {Create Job Offer};
+\node[draw,rectangle,inner sep=0.3cm] (afj) at (3.625,-2) {Apply for Job};
 \coordinate[above left = of cjo.west]   (a1);
 \coordinate[below = of a1]              (a2);
 \coordinate[below = of a2]              (a3);
-\foreach \i [count=\xi from 1] in
-{
-    EmployerPubKey,
-    [Locations],
-    PaymentAmount
-}
-    \draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
-
-%\coordinate[below=of joh]  (joh);
-%\coordinate[left = of afj.west]  (joh);
-% \draw[-latex']  (joh) node[left] {Job Offer Hash} -- (cjo-| afj.west);
+\coordinate[above right= 8mm and 22mm of cjo.east]  (joh);
+\coordinate[below=of joh]  (joh);
+%
+\foreach \i [count=\xi from 1] in {EmployerPubKey,[Locations],PaymentAmount}
+\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
 %\foreach \i [count=\xi from 1] in {Job Offer Hash}
-%\draw[-latex'] (joh) -- (afj);
-%\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
+\draw[-latex'] (cjo.east |- joh) -- (joh) node[right] {Job Offer Hash};
+\draw[-latex'] (joh) -- (afj);
+\draw[-latex']  (a\xi) node[left] {\i} -- (a\xi-| cjo.west);
 \end{tikzpicture}
-\newpage
 
  
 \section{Main Use Cases}
@@ -127,7 +103,7 @@ An application designed to connect employers and freelancers must offer basic us
 \subsection{Creating Job Offers}
 An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
-This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the \emph{Job Board}. This initial transaction may have no ADA associated, and it's intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
+This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the "Job Board". This initial transaction may have no ADA associated, and it's intended to brocjoast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, and this is implemented by using a DataScript with fields to describe the job being offered, and includes the public key of the employer.
 
 The first iteration of the protocol contains just enough information to prove communication can be achieved, and may be extended later with fields of interest.
 
@@ -145,10 +121,9 @@ PlutusTx.makeLift ''JobOffer
 
 \subsection{Applying for Job Offers}
 
+In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in "A pub-sub mechanism for Cardano and Plutus"\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
 
-In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in ``A pub-sub mechanism for Cardano and Plutus''\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
-
-Now that the freelancer can understand what the job demands, he can apply to it. In this context, application means that the freelancer considers himself good enough to deliver the job required, but the employer may disagree. This is why further filtering before the job is done and the payment is delivered is needed. In this case, the freelancer posts his application to a different address, that we call the \emph{Job Application Board}. This address is derived automatically from the main Job Board address, hashing into it the specific details of the job.
+Now that the freelancer can understand what the job demands, he can apply to it. In this context, application means that the freelancer considers himself good enough to deliver the job required, but the employer may disagree. This is why further filtering before the job is done and the payment is delivered is needed. In this case, the freelancer posts his application to a different address, that we call the "Job Application Board". This address is derived automatically from the main Job Board address, hashing into it the specific details of the job.
 
 The freelancer posts to this Job Application Board his public key, and possibly some relevant information. For the first iteration of the protocol, we have decided that the freelancer will only post his public key.
 
@@ -363,7 +338,7 @@ GET tokens are created when ADA is received by the GET creation smart contract (
 The amount $\alpha$ of GET created and awarded to the ADA sender's wallet, will be an arbitrary constant $\phi$ (currently set to 1000), divided by the block height $\ell$, rounded up, starting from the first block since the GET creation smart contract gets published. That is,
 
 \[ \alpha
-  = \dfrac{\phi}{\ell}
+  = \dfrac{\phi}{129600}
 \]
 
 This policy has several effects:
@@ -372,7 +347,7 @@ This policy has several effects:
 
   \item The cost of producing GET tokens via the smart contract will increase over time. 
   \item It provides an incentive to adopt the GiG Economy Token sooner than later. 
-  \item The conversion rate provides a temporary price roof (in terms of ADA). In detail, if the market price climbs higher than the cost of creating GET, market actors will prefer producing GET via the smart contract rather than buying it in the market.
+  \item The conversion rate provides a temporary price roof (in terms of ADA). In detail, if the market price climbs higher than the GCSM cost of creating GET, market actors will prefer producing GET via the smart contract rather than buying it in the exchanges.
   \item Creating new tokens costs more over time, thus putting a positive price pressure on the existing tokens.
   \item Speculative pumps and dumps will be avoided, as the market price of buying GET will always be equal or lower to the cost of creating the token (by sending ADA to the GCSM). If there is no supply of GET in the market at a price equal or lower to the cost of creating GET, interested buyers would create them by sending ADA to the GCSM. 
   \item In the long term, creating GET through the GCSM will not be attractive, this means the GET supply has a theoretical hard cap.
@@ -404,8 +379,9 @@ Although a detailed description of the DAO's functionality can be found in the Z
 Since the DAO will sustain de investment for development, mantainance and marketing efforts for the platform, it is important to keep it funded. Capital will flow to the DAO in two different ways:
 
 \begin{enumerate}
-  \item The first method is through GET creation in the Get Creation Smart Contract. All the ADA received by the smart contract will fund the DAO.
-  \item The second method is through the use of the platform. Every time a job is completed, an inflation equivalent to 10\% of the escrow released to the freelancer is added to GET's monetary base. All the GET created this way also funds the DAO. This inflation is correlated with the use and popularity of the platform. 
+  \item The first method is through GET creation in the Get Creation Smart Contract. All the ADA received by the smart contract will fill the DAO.
+  \item The second method is through the use of the platform. Every time a Job offer is created, the employer must send an amount of GET equal to 5 percent of the proposed salary to the Job offer smart contract. When the employer accepts an employee for a job offer, this will trigger the creation of the same amount of GET and send it to the DAO. In practical terms: 
+  An employer creates a job offer with a proposed reward of 200 dollars, he has to send 10 dollars of GET to the smart contract, this amount will be used for criptoeconomic incentives described in the section X. When the employer accepts an application for the job offer, 10 dollars of GET will be created and sent to the DAO. This means the DAO will be funded by inflation, but this inflation is correlated with the use and popularity of the platform. 
 \end{enumerate}
 
 \subsection{GET token utility}
@@ -551,13 +527,9 @@ As the platform evolves, it is expected that the Smart Contracts used by the pla
 
 Considering these requirements, we can start drafting the architecture of the platform.
 
-\begin{figure}[h]
-  \centering{
-    \large
-    \resizebox{\textwidth}{!}{\input{diagrams/arch.tex}}
-  }
-  \caption{Architectural vision of the dApp} \label{fig:figureone}
-\end{figure}
+
+(Picture of the architecture)
+%\includesvg{arch.svg}
 
 The main considerations are:
 \begin{itemize}
