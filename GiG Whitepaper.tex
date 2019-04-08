@@ -437,37 +437,12 @@ Besides the DAO governance, the GET token will be used in many different ways. T
 \end{enumerate}
 
 \section{Prototype application}
-We already have working prototype with the basic functionality of the GET Economy DApp, it is written in Haskell and it uses the Plutus Playground. It is described in detail in Appendix A. 
+We have working prototype with the basic functionality of the GET Economy DApp, it is written in Haskell and it uses the Plutus Playground. It is described in detail in Appendix A. 
 
 
 \section{Architecture of the GiG Economy dApp}
 The prototype serves as an effective way to learn and understand Cardano and Plutus, and direct that learning into the objectives we want to achieve. But it cannot be considered the final application because the constraints of the final application are significantly different to the constraints of the prototype.
 
-\subsection{Architectural limitations of the prototype}
-
-In order to construct the prototype quickly, we have paid little attention to many significant flaws in the current system:
-
-\begin{itemize}
-  \item There is no testnet with Plutus, which means we had to construct a prototype on top of the Plutus emulator, not on top of a real blockchain.
-  \item There is an expectation of using a wallet to interact with the blockchain, because wallets store keypairs and deal with the blockchain in a great way, and it would be inadequate to not reuse all that research around connecting safely with the blockchain that has been done.
-  \item It is not expected that end users will have to run web servers.
-\end{itemize}
-
-There are also more constraints that we haven't addressed in the prototype, but that will be significant when constructing the dApp:
-
-\begin{itemize}
-  \item User profiles, probably including photos and other data intensive entities will have to be stored somewhere for employers and freelancers to review. Storing lots of data in the blockchain is not viable because of transaction costs, so we need a different mechanism to solve this problem.
-  \item Communication between employers and freelancers after the freelancer has applied to a job is not discussed. We assume that the freelancers and the employers will \emph{magically} use their public keys to reach an agreement. This has to be addressed in the dApp in order to be able to reach a significant group of people.
-  \item We have introduced arbiters without a way to find them, and figure if they are good for dispute resolution. There is a gap waiting to be filled related to how a freelancer and an employer will reach an agreement on which arbiter is going to be called to resolve the escrow.
-  \item Arbiters are expected to review all the evidence related to an escrow before deciding who is in the right. The prototype doesn't address how this evidence is going to be collected, stored, and delivered to the arbiter so that she can do her job.
-  \item There is an expectation of rating the interaction, and each party having a rating in the system, because people are more willing to start interactions with people that have good reputation. We haven't addressed neither any kind of reputation in the prototype, nor how could it be gathered, stored and displayed.
-  \item The real blockchain has transaction costs and fees that must be paid by someone for the transactions to be accepted. The prototype doesn't have such requirements, and therefore we have assumed that transaction costs are negligible. The dApp will have to consider, calculate, display and pay these transaction costs unless we can truly prove that they are negligible.
-  \item Modern applications have created an expectation of instant communication that we haven't implemented in the prototype. For example, it is expected that the employer is somehow notified when a freelancer applies to a job. This will require creating a system that is able to react in a timely fashion to events that happen in the blockchain, and trigger actions outside the blockchain.
-  \item We know the smart contracts we offer here are adequate for a prototype phase, and we expect to improve them over time. But there is no way in place to be able to replace a smart contract with an improved one, and this will require architecture considerations that we have not addressed yet.
-  \item The prototype uses ADA for payments, but, for the project to be continuously funded, improved and guided, a cornerstone consists on using GET instead of ADA. There are lots of questions on how to implement, pay, vote and cover transaction fees using GET. The prototype has not addressed any of those questions, and the dApp will have to address them.
-\end{itemize}
-
-These changes mean the GiG Economy dApp will have to be significantly rearchitechted around a wallet, and further research must be done in order to fill all the communication gaps currently present in the prototype, such as freelancer-employer communication, or freelancer-arbiter communication.
 
 \subsection{Architectural approach for the dApp}
 
@@ -670,5 +645,30 @@ In our opinion, the usage of a web framework has paid significantly, as it provi
 
 Ironically, the \emph{opinion} of using a SQLite database has not been used, as we focused on using the blockchain as our distributed store of data. Storing data in the blockchain is expected to be expensive\cite{transaction-fees}, so we can't truly discard the option of using an external and cheaper data storage.
 
+\subsection{Architectural limitations of the prototype}
+
+In order to construct the prototype quickly, we have paid little attention to many significant flaws in the current system:
+
+\begin{itemize}
+  \item There is no testnet with Plutus, which means we had to construct a prototype on top of the Plutus emulator, not on top of a real blockchain.
+  \item There is an expectation of using a wallet to interact with the blockchain, because wallets store keypairs and deal with the blockchain in a great way, and it would be inadequate to not reuse all that research around connecting safely with the blockchain that has been done.
+  \item It is not expected that end users will have to run web servers.
+\end{itemize}
+
+There are also more constraints that we haven't addressed in the prototype, but that will be significant when constructing the dApp:
+
+\begin{itemize}
+  \item User profiles, probably including photos and other data intensive entities will have to be stored somewhere for employers and freelancers to review. Storing lots of data in the blockchain is not viable because of transaction costs, so we need a different mechanism to solve this problem.
+  \item Communication between employers and freelancers after the freelancer has applied to a job is not discussed. We assume that the freelancers and the employers will \emph{magically} use their public keys to reach an agreement. This has to be addressed in the dApp in order to be able to reach a significant group of people.
+  \item We have introduced arbiters without a way to find them, and figure if they are good for dispute resolution. There is a gap waiting to be filled related to how a freelancer and an employer will reach an agreement on which arbiter is going to be called to resolve the escrow.
+  \item Arbiters are expected to review all the evidence related to an escrow before deciding who is in the right. The prototype doesn't address how this evidence is going to be collected, stored, and delivered to the arbiter so that she can do her job.
+  \item There is an expectation of rating the interaction, and each party having a rating in the system, because people are more willing to start interactions with people that have good reputation. We haven't addressed neither any kind of reputation in the prototype, nor how could it be gathered, stored and displayed.
+  \item The real blockchain has transaction costs and fees that must be paid by someone for the transactions to be accepted. The prototype doesn't have such requirements, and therefore we have assumed that transaction costs are negligible. The dApp will have to consider, calculate, display and pay these transaction costs unless we can truly prove that they are negligible.
+  \item Modern applications have created an expectation of instant communication that we haven't implemented in the prototype. For example, it is expected that the employer is somehow notified when a freelancer applies to a job. This will require creating a system that is able to react in a timely fashion to events that happen in the blockchain, and trigger actions outside the blockchain.
+  \item We know the smart contracts we offer here are adequate for a prototype phase, and we expect to improve them over time. But there is no way in place to be able to replace a smart contract with an improved one, and this will require architecture considerations that we have not addressed yet.
+  \item The prototype uses ADA for payments, but, for the project to be continuously funded, improved and guided, a cornerstone consists on using GET instead of ADA. There are lots of questions on how to implement, pay, vote and cover transaction fees using GET. The prototype has not addressed any of those questions, and the dApp will have to address them.
+\end{itemize}
+
+These changes mean the GiG Economy dApp will have to be significantly rearchitechted around a wallet, and further research must be done in order to fill all the communication gaps currently present in the prototype, such as freelancer-employer communication, or freelancer-arbiter communication.
 
 \end{document}
