@@ -437,52 +437,7 @@ Besides the DAO governance, the GET token will be used in many different ways. T
 \end{enumerate}
 
 \section{Prototype application}
-At the time of writing this document, Plutus is not yet available in a testnet, and whoever want to try it have to use it through the Plutus Playground, or through the underlying emulator the Plutus Playground uses: the Mockchain.
-
-\subsection{Beyond the Plutus Playground}
-The Plutus Playground offers a nice and easy to use interface for interacting with the Mockchain, but it is severely limited, specially in the terms we are going to use.
-
-\begin{itemize}
-  \item First of all, the Plutus Playground offers us an interface we may or may not agree to use, but, in any case, is not the interface we expect from the system. We want the ability to use our own interface, in order to apply the UI/UX we consider adequate for the project.
-  \item Second, the Plutus Playground doesn't allow us to do advanced manipulation of smart contracts, such as reading and parsing back DataScripts.
-  \item Finally, the Plutus Playground doesn't have the ability to save files to a version control system that all modern software development workflow expects.
-\end{itemize}
-
-For these three reasons, we had to discard the Plutus Playground soon, and jump quickly to directly use the Mockchain in a prototype. This allowed us to understand deeply Plutus, and estimate real costs of integration with a real blockchain.
-
-\subsection{Architectural considerations of the prototype}
-The tech stack we chose for the prototype is a conservative choice given the most significant constraints in the system:
-
-\begin{itemize}
-  \item Plutus is written in Haskell, therefore the prime candidate programming language would be Haskell.
-  \item We have some experience in web development, web development offers somewhat easy user interfaces with the usual entities (buttons, text, actions), and creating a web application allows us to offer the system easily over the Internet by just providing an URL. Therefore, constructing the prototype as a web application is our prime architectural decision.
-  \item Although the blockchain is distributed in its nature, there is a \emph{centralized} concept behind it, being this concept the \emph{global agreement on a single chain}. We can simulate this global agreement locally without the problems that a distributed system creates by having a single Mockchain stored in a single machine. Although this defeats the distributed purpose of a real blockchain, we consider it good enough for a prototype phase, keeping in mind that a real blockchain with Plutus doesn't exist yet.
-\end{itemize}
-
-Following these three reasons, we have used as a base for our prototype a simple Yesod scaffolding with SQLite as database. Among the many web frameworks available, we chose this one because:
-
-\begin{itemize}
-  \item It is a web framework based in Haskell, therefore integrating Plutus should not be significantly hard.
-  \item It is an \emph{opinionated} web framework. Opinionated web frameworks are the ones that have opinions: they have an opinion that you will use an specific architectural pattern, that you will use an specific template system, that you will use an specific data storage. In contrast, \emph{unopinionated} web frameworks feature an architecture where the developers have to connect whatever they need for the situation. In our experience, opinionated web frameworks work well for the large majority of projects, because their \emph{opinions} are conservative chosen, and a lot of integration effort has been already spent making their opinions fit nicely. Therefore, we chose Yesod in the Haskell world, because it is the opinionated web framework that mostly resembled the \emph{King of web frameworks}: Ruby on Rails.
-  \item It is well supported by the community. This is important, as it will save time because there will be available plugins for most situations, and books, forums and blogs to help unblock the development team when they need it.
-\end{itemize}
-
-\subsection{Design approach of the prototype}
-Now that we decided to use a web application, we can start to consider what this means in terms of it being a front-end for Plutus and the Mochckain:
-
-\begin{itemize}
-  \item We are going to store a single Mockchain in memory, and use it as our datastore.
-  \item Actions performed by the different stakeholders of the system will be performed against this single in-memory Mockchain, usually by adding new blocks to it.
-  \item We should try to use only the methods and operations that the Wallet API provides, as any other operation is not expected to be available on the real blockchain.
-  \item If we have to use operations not provided by the Wallet API, we have to be careful to ensure these operations are plausible and somewhat expected to be available later. In any case, we can't do operations that break the constraints of the blockchain, such as rewriting blocks.
-\end{itemize}
-
-These constraints have proven to be a reasonable challenge, and have pushed our learning on how to construct distributed apps significantly. The only constraint we have broke regularly is the ability to rewrite the blockchain. By virtue of storing the Mockchain in memory, every time we restarted the system it forgot its history and restarted in a clean state. This has proven very useful for testing and validating ideas, and is expected on usual development workflows, but it's also something to keep in mind, as doing it in production systems is expected to be practically impossible.
-
-\subsection{Lessons learnt from the prototype}
-In our opinion, the usage of a web framework has paid significantly, as it provided a simple but powerful way to explore the user interfaces around Smart Contracts. We had to figure out when we have to offer different buttons for different actions, guided by the available information on the blockchain. This also lead us to interesting information distribution issues, that eventually lead to the discovery of unlifting and the Plutus Pub-Sub pattern\cite{pub-sub-paper}.
-
-Ironically, the \emph{opinion} of using a SQLite database has not been used, as we focused on using the blockchain as our distributed store of data. Storing data in the blockchain is expected to be expensive\cite{transaction-fees}, so we can't truly discard the option of using an external and cheaper data storage.
+We already have working prototype with the basic functionality of the GET Economy DApp, it is written in Haskell and it uses the Plutus Playground. It is described in detail in Appendix A. 
 
 
 \section{Architecture of the GiG Economy dApp}
@@ -642,6 +597,10 @@ On this document we described our progress at constructing a decentralized platf
 
 Further research should be directed to construct a dApp, and figure out how to construct the correct features for the GiG Economy Platform to succeed in different markets. This research will be addressed in further refinements of this white paper, as well as on related papers to be written in the future.
 
+
+
+At the time of writing this document, Plutus is not yet available in a testnet, and whoever want to try it have to use it through the Plutus Playground, or through the underlying emulator the Plutus Playground uses: the Mockchain.
+
 \begin{thebibliography}{99}
 
 \bibitem{intuit-2020-report} Intuit 2020 Report, Twenty trends that will shape the next decade, \url{https://http-download.intuit.com/http.intuit/CMO/intuit/futureofsmallbusiness/intuit_2020_report.pdf}, October 2010.
@@ -661,5 +620,55 @@ Bingsheng Zhang1, Roman Oliynykov2, and Hamed Balogun3
 \bibitem{yoroi-website} The Yoroi wallet, \url{https://yoroi-wallet.com/}, March 2019.
 
 \end{thebibliography}
+
+\newpage
+\appendix
+\section{\\Appendix A - Prototype Application}
+
+\subsection{Beyond the Plutus Playground}
+The Plutus Playground offers a nice and easy to use interface for interacting with the Mockchain, but it is severely limited, specially in the terms we are going to use.
+
+\begin{itemize}
+  \item First of all, the Plutus Playground offers us an interface we may or may not agree to use, but, in any case, is not the interface we expect from the system. We want the ability to use our own interface, in order to apply the UI/UX we consider adequate for the project.
+  \item Second, the Plutus Playground doesn't allow us to do advanced manipulation of smart contracts, such as reading and parsing back DataScripts.
+  \item Finally, the Plutus Playground doesn't have the ability to save files to a version control system that all modern software development workflow expects.
+\end{itemize}
+
+For these three reasons, we had to discard the Plutus Playground soon, and jump quickly to directly use the Mockchain in a prototype. This allowed us to understand deeply Plutus, and estimate real costs of integration with a real blockchain.
+
+\subsection{Architectural considerations of the prototype}
+The tech stack we chose for the prototype is a conservative choice given the most significant constraints in the system:
+
+\begin{itemize}
+  \item Plutus is written in Haskell, therefore the prime candidate programming language would be Haskell.
+  \item We have some experience in web development, web development offers somewhat easy user interfaces with the usual entities (buttons, text, actions), and creating a web application allows us to offer the system easily over the Internet by just providing an URL. Therefore, constructing the prototype as a web application is our prime architectural decision.
+  \item Although the blockchain is distributed in its nature, there is a \emph{centralized} concept behind it, being this concept the \emph{global agreement on a single chain}. We can simulate this global agreement locally without the problems that a distributed system creates by having a single Mockchain stored in a single machine. Although this defeats the distributed purpose of a real blockchain, we consider it good enough for a prototype phase, keeping in mind that a real blockchain with Plutus doesn't exist yet.
+\end{itemize}
+
+Following these three reasons, we have used as a base for our prototype a simple Yesod scaffolding with SQLite as database. Among the many web frameworks available, we chose this one because:
+
+\begin{itemize}
+  \item It is a web framework based in Haskell, therefore integrating Plutus should not be significantly hard.
+  \item It is an \emph{opinionated} web framework. Opinionated web frameworks are the ones that have opinions: they have an opinion that you will use an specific architectural pattern, that you will use an specific template system, that you will use an specific data storage. In contrast, \emph{unopinionated} web frameworks feature an architecture where the developers have to connect whatever they need for the situation. In our experience, opinionated web frameworks work well for the large majority of projects, because their \emph{opinions} are conservative chosen, and a lot of integration effort has been already spent making their opinions fit nicely. Therefore, we chose Yesod in the Haskell world, because it is the opinionated web framework that mostly resembled the \emph{King of web frameworks}: Ruby on Rails.
+  \item It is well supported by the community. This is important, as it will save time because there will be available plugins for most situations, and books, forums and blogs to help unblock the development team when they need it.
+\end{itemize}
+
+\subsection{Design approach of the prototype}
+Now that we decided to use a web application, we can start to consider what this means in terms of it being a front-end for Plutus and the Mochckain:
+
+\begin{itemize}
+  \item We are going to store a single Mockchain in memory, and use it as our datastore.
+  \item Actions performed by the different stakeholders of the system will be performed against this single in-memory Mockchain, usually by adding new blocks to it.
+  \item We should try to use only the methods and operations that the Wallet API provides, as any other operation is not expected to be available on the real blockchain.
+  \item If we have to use operations not provided by the Wallet API, we have to be careful to ensure these operations are plausible and somewhat expected to be available later. In any case, we can't do operations that break the constraints of the blockchain, such as rewriting blocks.
+\end{itemize}
+
+These constraints have proven to be a reasonable challenge, and have pushed our learning on how to construct distributed apps significantly. The only constraint we have broke regularly is the ability to rewrite the blockchain. By virtue of storing the Mockchain in memory, every time we restarted the system it forgot its history and restarted in a clean state. This has proven very useful for testing and validating ideas, and is expected on usual development workflows, but it's also something to keep in mind, as doing it in production systems is expected to be practically impossible.
+
+\subsection{Lessons learnt from the prototype}
+In our opinion, the usage of a web framework has paid significantly, as it provided a simple but powerful way to explore the user interfaces around Smart Contracts. We had to figure out when we have to offer different buttons for different actions, guided by the available information on the blockchain. This also lead us to interesting information distribution issues, that eventually lead to the discovery of unlifting and the Plutus Pub-Sub pattern\cite{pub-sub-paper}.
+
+Ironically, the \emph{opinion} of using a SQLite database has not been used, as we focused on using the blockchain as our distributed store of data. Storing data in the blockchain is expected to be expensive\cite{transaction-fees}, so we can't truly discard the option of using an external and cheaper data storage.
+
 
 \end{document}
