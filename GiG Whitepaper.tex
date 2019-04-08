@@ -282,10 +282,7 @@ jobAcceptanceBoard :: ValidatorScript
 jobAcceptanceBoard = ValidatorScript ($$(Ledger.compileScript [||
   \(_ :: JobOffer)
    (_ :: JobApplication)
-   ()
    (_ :: Validation.PendingTx)
-   ->
-    -- TODO: Implement some validation here
     ()
   ||]))
 
