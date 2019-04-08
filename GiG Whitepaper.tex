@@ -167,7 +167,7 @@ PlutusTx.makeLift ''JobOffer
 \subsection{Applying for Job Offers}
 
 
-In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. Then, the freelancers must be able to parse back the descriptions. The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in ``A pub-sub mechanism for Cardano and Plutus''\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
+In order for a freelancer to find jobs, first he must be checking the place where employers post jobs: the Job Board. Thus, the first step for a freelancer is start listening for transactions in the Job Board address. As employers post new transactions there, the freelancers will be notified by their wallets of these operations. 
 
 Now that the freelancer can understand what the job demands, he can apply to it. In this context, application means that the freelancer considers himself good enough to deliver the job required, but the employer may disagree. This is why further filtering before the job is done and the payment is delivered is needed. In this case, the freelancer posts his application to a different address that we call the \emph{Job Application Board}. This address is derived automatically from the main Job Board address, hashing into it the specific details of the job.
 
@@ -604,9 +604,10 @@ Bingsheng Zhang1, Roman Oliynykov2, and Hamed Balogun3
 The Plutus Playground offers a nice and easy to use interface for interacting with the Mockchain, but it is severely limited, specially in the terms we are going to use.
 
 \begin{itemize}
-  \item First of all, the Plutus Playground offers us an interface we may or may not agree to use, but, in any case, is not the interface we expect from the system. We want the ability to use our own interface, in order to apply the UI/UX we consider adequate for the project.
-  \item Second, the Plutus Playground doesn't allow us to do advanced manipulation of smart contracts, such as reading and parsing back DataScripts.
-  \item Finally, the Plutus Playground doesn't have the ability to save files to a version control system that all modern software development workflow expects.
+  \item The Plutus Playground offers us an interface we may or may not agree to use, but, in any case, is not the interface we expect from the system. We want the ability to use our own interface, in order to apply the UI/UX we consider adequate for the project.
+  \item The system uses the Plutus programming language for smart contracts, and this language, when compiled to the Plutus bytecode (known as CEK code), is not readable by human beings. In order for a freelancer to read and understand a job offer, we need to offer him a human-readable version of the posted job. This is done by means of the mechanism described in ``A pub-sub mechanism for Cardano and Plutus''\cite{pub-sub-paper}. Once this Plutus bytecode is parsed back to a standard machine representation, it's easy for the system to convert this machine representation into a user interface for the freelancer.
+  \item The Plutus Playground doesn't allow us to do advanced manipulation of smart contracts, such as reading and parsing back DataScripts.
+  \item The Plutus Playground doesn't have the ability to save files to a version control system that all modern software development workflow expects.
 \end{itemize}
 
 For these three reasons, we had to discard the Plutus Playground soon, and jump quickly to directly use the Mockchain in a prototype. This allowed us to understand deeply Plutus, and estimate real costs of integration with a real blockchain.
