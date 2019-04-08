@@ -225,6 +225,8 @@ To break this stalemate we introduce a third party: an arbiter. The arbiter has 
 
 The escrow is released by the arbiter by posting a transaction to the escrow address with the result of his judgment (accept escrow to freelancer, or reject escrow back to employer), written as a RedeemerScript, setting the output of the transaction to the wallet of the freelancer or the wallet of the employer, and finally signing the transaction with his private key.
 
+In the begining stages of the platform development, the arbiters ... (Falta describir como van a funcionar los arbitros, como se va a financiar los arbitros, quienes van a ser elegidos en un inicio, etc.)
+
 \begin{samepage}
 \begin{verbatim}
 data EscrowResult
