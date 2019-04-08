@@ -146,9 +146,9 @@ All these factors make this labor market significantly different from traditiona
 An application designed to connect employers and freelancers must offer basic use cases that allow completing the main type of transaction in the system: freelancer being able to work for an employer, and getting paid by the employer when completing the work.
 
 \subsection{Creating Job Offers}
-An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of get offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
+An employer signs a job offer posting transaction with his Cardano private key. This transaction will always include an amount of GET offered for the task, and a description of said task. The transaction might also include other information about the task, such as a location list, a expected schedule, and other instructions or information about the task.
 
-This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the \emph{Job Board}. This initial transaction may have no ADA associated, and it's intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, it is implemented by using a DataScript with fields to describe the job being offered and includes the public key of the employer.
+This is implemented by posting a DataScript transaction to a Smart Contract that we decided to call the \emph{Job Board}. The initial transaction has no escrow, it intended to broadcast to the community that a new job is available. It has to include enough information for the freelancers to decide if it's interesting to them, it is implemented by using a DataScript with fields to describe the job being offered and includes the public key of the employer.
 
 The first iteration of the protocol contains just enough information to prove communication can be achieved, and may be extended later with fields of interest.
 
