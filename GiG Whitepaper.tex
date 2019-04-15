@@ -28,9 +28,9 @@
 \maketitle
 
 \begin{abstract}
-A decentralized application for the labor marketplace, that connects employers with freelancers is described. GiG, a system built on the Cardano blockchain, is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions. 
+A decentralized application (DApp) for the labor marketplace, that connects employers with freelancers is described. GiG, a system that uses the Cardano blockchain, is intended to reduce friction and to eliminate fees collected by employment agencies, recruiting platforms, and financial institutions.
 
-\paragraph{} The native currency of the system is the GiG Economy Token (GET). The algorithm used for its creation prevents especulative bubbles, and funds a Treasury System managed by a DAO (Decentralized Autonomous Organization), while guaranteeing scarcity. The DAO finances expenses for the ecosystem through proposals created and voted for by the GiG community.
+\paragraph{} The native currency of the system is the Gig Economy Token (GET). The algorithm used for its creation prevents especulative bubbles, and funds a Treasury System managed by a DAO (Decentralized Autonomous Organization), while guaranteeing scarcity. The DAO finances expenses for the ecosystem through proposals created and voted by the GiG community.
 
 \paragraph{} GiG offers multiple tools that will give value to freelancers and employers, gaining the ability to interact without the need of trust, transacting on a peer to peer basis.
 
@@ -77,7 +77,7 @@ All these factors make this labor market significantly different from traditiona
 
 \section{Advantages of using a Blockchain}
 
-\paragraph{} The connection between job seekers and employers in the GiG economy is often done by recruitment companies. These companies are actors that fullfil several roles in the market:
+\paragraph{} The connection between job seekers and employers in the GiG economy is often done by recruitment agencies. These companies are actors that fulfill several roles in the market:
 
 \begin{enumerate}
   \item They have the information of reliable people that can work for certain jobs in a specific area.
@@ -91,9 +91,9 @@ All these factors make this labor market significantly different from traditiona
 
 \paragraph{} Bitcoin is the first example of how a descentralized database can remove middle man in order to create shared information without the need of a third party, in the case of the cryptocurrency, that third party is the bank.
 
-\paragraph{} In the GiG economy, the recruitment companies are the third party that will suffer a metamorphosis due to the blockchain technology. Some of the roles of a recruitment company can be done by a descentralized database. In the present, the intermediaries take a relatively big percentage as a commission of the proposed salary, from 15 to 30 percent. By leveraging on the blockchain, the GiG economy descentralized application will aloud market actors to connect at extremely lower prices.
+\paragraph{} In the GiG economy, the recruitment companies are the third party that will suffer a metamorphosis due to blockchain technology. Some of the roles that a recruitment agency covers, can be performed by a decentralized system. In the present, the intermediaries take a relatively big percentage of the proposed salary as a fee, from 15\% to 30\%. By leveraging the blockchain, the GiG economy decentralized application will allow market actors to connect at extremely low prices.
 
-\paragraph{} The GiG economy dapp will let employers post job offers to the blockchain. Then, job seekers will post job applications and begin an application process entirely in a peer to peer manner. The details of this process will be explained in the following chapters.
+\paragraph{} The Gig economy DApp will let employers post job offers to the blockchain. Then, job seekers will post job applications and begin an application process entirely in a peer to peer manner. The details of this process will be explained in the following chapters.
 
 
 \section{System Overview}
@@ -440,20 +440,20 @@ Besides the DAO governance, the GET token will be used in many different ways. T
 We have working prototype with the basic functionality of the GET Economy DApp, it is written in Haskell and it uses the Plutus Playground. It is described in detail in Appendix A.
 
 
-\section{Architecture of the GiG Economy dApp}
+\section{Architecture of the GiG Economy DApp}
 The prototype serves as an effective way to learn and understand Cardano and Plutus, and direct that learning into the objectives we want to achieve. But it cannot be considered the final application because the constraints of the final application are significantly different to the constraints of the prototype.
 
 
-\subsection{Architectural approach for the dApp}
+\subsection{Architectural approach for the DApp}
 
-For the dApp to be successful, it must offer:
+For the DApp to be successful, it must offer:
 
 \begin{itemize}
   \item An easy to use and effective way for users to interact with each other in the GiG Economy.
   \item An easy to use way for users to interact with the blockchain.
   \item An effective way to be discovered by new users.
   \item A compelling reason for veteran users to continue use it.
-  \item A significant edge over currently-available solutions for users to decide to leave their current systems in favour of the GiG Economy dApp.
+  \item A significant edge over currently-available solutions for users to decide to leave their current systems in favour of the GiG Economy DApp.
 \end{itemize}
 
 We will explore the solution space looking for hints of architectural design that allows us to cover these reasons.
@@ -465,7 +465,7 @@ Daedalus is a highly secure wallet for the Ada cryptocurrency. Download and inst
 \end{aquote}
 
 
-The Daedalus Wallet offers a good hint on how we can construct the GiG Economy dApp. It will offer in the future an app store and blockchain application platform, and it seems the GiG Economy dApp will have the most reach if it can use the provided blockchain application platform for running, and the app store for discovery and distribution. With good support from a known wallet, we can cover the requirements of using the blockchain easily, and being easy to find and install by new users.
+The Daedalus Wallet offers a good hint on how we can construct the GiG Economy DApp. It will offer in the future an app store and blockchain application platform, and it seems the GiG Economy DApp will have the most reach if it can use the provided blockchain application platform for running, and the app store for discovery and distribution. With good support from a known wallet, we can cover the requirements of using the blockchain easily, and being easy to find and install by new users.
 
 
 \subsubsection{Broadcasting and responding requirements}
@@ -484,13 +484,13 @@ So we need to support a gradual level of contact information to be revealed, and
 
 As the GiG Economy Platform expands, a way to discriminate jobs depending on circumstances is expected to be required. We may want to broadcast local jobs only to freelancers in the world that are in a situation to deliver them at the required location. This means we will have to investigate and implement a mechanism for specifying the outreach of a job, in order for freelancers to receive only jobs that may be relevant to them, and for employers to receive applications from freelancers that are in a good position to deliver the work.
 
-This requirement also means we have to be careful when designing the smart contracts, so that we can configure them to have this calculated reach, and, at the same time, are able to withstand global actions and usage. This is specially important for the GiG Economy Token, as it is expected that the token is fungible (I/E every token is equal to any other token), and therefore is prime candidate for having a single smart contract to be applied to every user of the system.
+This requirement also means we have to be careful when designing the smart contracts, so that we can configure them to have this calculated reach, and at the same time, are able to withstand global actions and usage. This is specially important for the GiG Economy Token, as the token should be fungible (every token is equal to any other token).
 
 \subsubsection{Continuity requirements}
 
 The GiG Economy Platform is expected to expand, change and evolve over time. Because it is intended to be a distributed platform, there can't be a single person or group of people that will govern it, as this group of people can be a weak point of the whole platform, and defeats the point of having a distributed application.
 
-For this reason, we envision the GiG Economy Token as a mechanism for voting and administering the future of the platform, by constructing a Decentralized Autonomous Organization. The dApp must offer the mechanisms needed for people to fund and participate in this DAO.
+For this reason, we envision the Gig Economy Token as a mechanism for voting and administering the future of the platform, by constructing a Decentralized Autonomous Organization. The DApp must offer the mechanisms needed for people to fund and participate in this DAO.
 
 As the platform evolves, it is expected that the Smart Contracts used by the platform will change. For the DAO to construct the next evolution of the platform, there must be a way to retire old contracts and replace them with new contracts, as well as ways for rejecting contracts for being obsolete or with known vulnerabilities. Inevitably, this leads to requiring some kind of listing of approved and rejected smart contracts, and the DAO must have the ability to update this listing.
 
@@ -503,23 +503,23 @@ Considering these requirements, we can start drafting the architecture of the pl
     \large
     \resizebox{\textwidth}{!}{\input{diagrams/arch.tex}}
   }
-  \caption{Architectural vision of the dApp} \label{fig:figureone}
+  \caption{Architectural vision of the DApp} \label{fig:figureone}
 \end{figure}
 
 The main considerations are:
 \begin{itemize}
-  \item The users of the platform (employers, freelancers and arbiters, among others) will use the dApp through their Daedalus wallets.
-  \item The dApp will connect to the Cardano blockchain using the Wallet API that Daedalus offers.
-  \item The dApp will store in the Cardano blockchain enough information for communicating, referencing and operating with job offers, job acceptances and escrows.
+  \item The users of the platform (employers, freelancers and arbiters, among others) will use the DApp through their Daedalus wallets.
+  \item The DApp will connect to the Cardano blockchain using the Wallet API that Daedalus offers.
+  \item The DApp will store in the Cardano blockchain enough information for communicating, referencing and operating with job offers, job acceptances and escrows.
   \item Any data that can be significantly big (such as the description of job offers) will be stored in external cloud services, and will be referenced in the smart contract. This data can be encrypted with the public key of the receiver to limit who can read it. Storing this data in the cloud is intended to reduce transaction fees.
-  \item The dApp will store locally references to commonly used information, such as references to your own profile, or references to previous jobs performed.
+  \item The DApp will store locally references to commonly used information, such as references to your own profile, or references to previous jobs performed.
   \item External cloud services will be used for intercommunication of the users of the platform. These services can include phone calls, text messages, chats and video conferences. Care must be taken to ensure the authenticity of both users to each other. The communication avenue to be used can be referenced in the smart contract, thus allowing swapping services or using the most popular service for the community involved.
 \end{itemize}
 
 \section{Envisioned Features of the GiG System}
 On the Architectural Limitations of the Prototype, in Apendix A, we specify some of the limitations that the current prototype has that limit the main use of the system to: freelancers working for employers, and employers paying freelancers for the work performed.
 
-On this section we envision lifting these limitations in order to construct a dApp that is intended to streamline the process, helping along every step to improve the efficiency and engagement of the users, and maximising the quality of the work delivered.
+On this section we envision lifting these limitations in order to construct a DApp that is intended to streamline the process, helping along every step to improve the efficiency and engagement of the users, and maximising the quality of the work delivered.
 
 \subsection{Communication Between Parties}
 
@@ -527,7 +527,7 @@ After the employer has published a job offer and a freelancer has applied, it is
 
 Another party that has communication requirements is the arbiter. It is expected that the arbiter needs to communicate with both the employer and the freelancer as part of the process of gathering evidence before deciding who is in the right.
 
-For these reasons, it's fundamental for the GiG dApp to have a way to interconnect these parties. We understand there is a great choice of communication methods, and we think the GiG dApp shall support a generalized mechanism for connecting to phone calls, chats, messages and video conferences. It must also support a notification system to help the user know when he is being contacted using any of the means specified.
+For these reasons, it's fundamental for the GiG DApp to have a way to interconnect these parties. We understand there is a great choice of communication methods, and we think the GiG DApp shall support a generalized mechanism for connecting to phone calls, chats, messages and video conferences. It must also support a notification system to help the user know when he is being contacted using any of the means specified.
 
 \subsection{Arbiter discovery and agreement}
 
@@ -547,7 +547,7 @@ In order to reduce this and increase engagement, we envision several features de
 
 Many jobs require the freelancer to be located in a specific location at a designated time. For example, a B2B visitor is expected to visit the offices of the business being visited.
 
-Assuming the dApp to be installed in a mobile phone, and expecting the freelancer to carry such phone on his daily work, we can use the dApp to help him. For example we can use GPS localization to help by:
+Assuming the DApp to be installed in a mobile phone, and expecting the freelancer to carry such phone on his daily work, we can use the DApp to help him. For example we can use GPS localization to help by:
 
 \begin{itemize}
   \item Offering a mapping feature that allows the freelancer to reach in an easier way the location where the work is intended to be performed, by finding the best route, calculating time to arrival, redirecting the route depending on the traffic, and many other features the mapping applications offer.
@@ -565,9 +565,9 @@ We can use Geolocation Control and Time-stamping to be able to construct timeshe
 
 \section{Conclusions}
 
-On this document we described our progress at constructing a decentralized platform for supporting the people that make the GiG Economy. We used Plutus and the Cardano blockchain to support our objectives, and learned valuable lessons on how this system can be constructed, and how it can evolve to support the ever changing world.
+On this document we described our progress at constructing a decentralized platform for supporting the people that make the GiG Economy. We used Plutus and the Cardano blockchain to support our objectives, and learned valuable lessons on how this system can be constructed, and how it can evolve to support this ever changing world.
 
-Further research should be directed to construct a dApp, and figure out how to construct the correct features for the GiG Economy Platform to succeed in different markets. This research will be addressed in further refinements of this white paper, as well as on related papers to be written in the future.
+Further research should be directed to construct a DApp, and figure out how to construct the correct features for the GiG Economy Platform to succeed in different markets. This research will be addressed in further refinements of this white paper, as well as on related papers to be written in the future.
 
 
 
@@ -653,20 +653,20 @@ In order to construct the prototype quickly, we have paid little attention to ma
   \item It is not expected that end users will have to run web servers.
 \end{itemize}
 
-There are also more constraints that we haven't addressed in the prototype, but that will be significant when constructing the dApp:
+There are also more constraints that we haven't addressed in the prototype, but that will be significant when constructing the DApp:
 
 \begin{itemize}
   \item User profiles, probably including photos and other data intensive entities will have to be stored somewhere for employers and freelancers to review. Storing lots of data in the blockchain is not viable because of transaction costs, so we need a different mechanism to solve this problem.
-  \item Communication between employers and freelancers after the freelancer has applied to a job is not discussed. We assume that the freelancers and the employers will \emph{magically} use their public keys to reach an agreement. This has to be addressed in the dApp in order to be able to reach a significant group of people.
+  \item Communication between employers and freelancers after the freelancer has applied to a job is not discussed. We assume that the freelancers and the employers will \emph{magically} use their public keys to reach an agreement. This has to be addressed in the DApp in order to be able to reach a significant group of people.
   \item We have introduced arbiters without a way to find them, and figure if they are good for dispute resolution. There is a gap waiting to be filled related to how a freelancer and an employer will reach an agreement on which arbiter is going to be called to resolve the escrow.
   \item Arbiters are expected to review all the evidence related to an escrow before deciding who is in the right. The prototype doesn't address how this evidence is going to be collected, stored, and delivered to the arbiter so that she can do her job.
   \item There is an expectation of rating the interaction, and each party having a rating in the system, because people are more willing to start interactions with people that have good reputation. We haven't addressed neither any kind of reputation in the prototype, nor how could it be gathered, stored and displayed.
-  \item The real blockchain has transaction costs and fees that must be paid by someone for the transactions to be accepted. The prototype doesn't have such requirements, and therefore we have assumed that transaction costs are negligible. The dApp will have to consider, calculate, display and pay these transaction costs unless we can truly prove that they are negligible.
+  \item The real blockchain has transaction costs and fees that must be paid by someone for the transactions to be accepted. The prototype doesn't have such requirements, and therefore we have assumed that transaction costs are negligible. The DApp will have to consider, calculate, display and pay these transaction costs unless we can truly prove that they are negligible.
   \item Modern applications have created an expectation of instant communication that we haven't implemented in the prototype. For example, it is expected that the employer is somehow notified when a freelancer applies to a job. This will require creating a system that is able to react in a timely fashion to events that happen in the blockchain, and trigger actions outside the blockchain.
   \item We know the smart contracts we offer here are adequate for a prototype phase, and we expect to improve them over time. But there is no way in place to be able to replace a smart contract with an improved one, and this will require architecture considerations that we have not addressed yet.
-  \item The prototype uses ADA for payments, but, for the project to be continuously funded, improved and guided, a cornerstone consists on using GET instead of ADA. There are lots of questions on how to implement, pay, vote and cover transaction fees using GET. The prototype has not addressed any of those questions, and the dApp will have to address them.
+  \item The prototype uses ADA for payments, but, for the project to be continuously funded, improved and guided, a cornerstone consists on using GET instead of ADA. There are lots of questions on how to implement, pay, vote and cover transaction fees using GET. The prototype has not addressed any of those questions, and the DApp will have to address them.
 \end{itemize}
 
-These changes mean the GiG Economy dApp will have to be significantly rearchitechted around a wallet, and further research must be done in order to fill all the communication gaps currently present in the prototype, such as freelancer-employer communication, or freelancer-arbiter communication.
+These changes mean the GiG Economy DApp will have to be significantly rearchitechted around a wallet, and further research must be done in order to fill all the communication gaps currently present in the prototype, such as freelancer-employer communication, or freelancer-arbiter communication.
 
 \end{document}
