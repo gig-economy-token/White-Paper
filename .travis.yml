@@ -1,0 +1,23 @@
+---
+language: generic
+
+install:
+  - sudo apt-get update
+  - sudo apt-get install -y texlive texlive-latex-extra
+
+script:
+  - "./build.sh"
+
+before_deploy:
+  - git config --local user.name "Ishtar Eve"
+  - git config --local user.email "yellowbear@cryptolab.net"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
+
+deploy:
+  provider: releases
+  api_key:
+    secure: OK143D1ogzp3PFafOHkMykcBkq4iucSuIPcbzKDYtVFfbVH7EAFZD62Jabdx9ssS6UiC87Rf1kBcbezf1IOSrnbwfbDauRhNGCIoTUzqc4iZHUexYOuflc0rSxms5JfRtOxJZnXJZiiwMAoVPgnqpuB6LujHpYzsZoW07KUDuxn/siZhg9+Ujzan+PZyz9qB44FmuB9N5Npu9gXEDsf1mF+38TRCdDPd9r6BM2ubo0nfSTU2k/2/fUgazez4HcWRcIr4Hw68APNo3fb17l6i9GOkoO9NF2TMQ2Mw09T6a5lwW0EuHUaATToDk8shJWLDhKki+JtTb2TuCr1pzy0XeD+dHVNgwGfN6dfK+hvV5ydaEIPzdQxPK8bVt0g+gbXNRThq+JH3uOq/suD5OLxRjyo8qbgZquwT9mHDoOnhgogdnzyCzSLmFEi1IqpsMUN7ItbIpnyKtKpoOAVQ42K/1F1cS7g6FRMT25cUZ1t9IGosA6uw4yAGw1CyrAsIXcSFT3+kjsZvCRfpyEFCIixr+vK+BT4vGtENdf8Bewxly+gMwH/5wnSSZvcNLtswwLFA5L1/gcd6Q80vBMeKL1wy7I6bkm5cFzWT1KUlyWtlcgxhshXZggnHfHzmy4I6NaTcRFjkUcm0OWoiqk0y5Sm2NmnCrd/2jIRe52MkCibMd0w=
+  file: GiG Whitepaper.pdf
+  on:
+    repo: gig-economy-token/White-Paper

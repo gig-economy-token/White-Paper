@@ -1,5 +1,7 @@
 # White-Paper
 
+[![Build Status](https://travis-ci.org/gig-economy-token/White-Paper.svg?branch=master)](https://travis-ci.org/gig-economy-token/White-Paper)
+
 White Paper Describing The GiG Platform. Any change in the .tex file, should be
 reflected in the .pdf file.
 
