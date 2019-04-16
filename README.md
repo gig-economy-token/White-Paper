@@ -27,3 +27,7 @@ Run the following command:
 ```
 ./check.sh
 ```
+
+## PDF version
+
+Download the latest PDF version [here](https://github.com/gig-economy-token/White-Paper/releases/latest/download/GiG.Whitepaper.pdf)
